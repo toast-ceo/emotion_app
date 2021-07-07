@@ -6,11 +6,11 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'ui/start.dart';
 import 'ui/menu.dart';
-import 'ui/record.dart';
-import 'ui/secondrecord.dart';
-import 'ui/remind.dart';
+import 'ui/record/record.dart';
+import 'ui/record/secondrecord.dart';
+import 'ui/remind/remind.dart';
 import 'ui/todayDiary.dart';
-import 'ui/remindEmotion.dart';
+import 'ui/remind/remindEmotion.dart';
 import 'ui/developPeople.dart';
 import 'ui/changeSex.dart';
 

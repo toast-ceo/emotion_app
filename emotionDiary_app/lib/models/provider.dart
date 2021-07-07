@@ -19,7 +19,6 @@ class Products with ChangeNotifier {
     await Future.delayed(Duration(seconds: 2));
     final response = await http.get(server);
     var temp = jsonDecode(response.body);
-    print(temp);
     notifyListeners();
     return temp['data']['body'];
   }

@@ -33,7 +33,6 @@ class _MenuPageState extends State<MenuPage> {
       body: FutureBuilder(
         future: userdata.fetchPost(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          print("gd ${snapshot.hasData}");
           if (snapshot.hasData) {
             userdata.callInfomation(snapshot.data);
           return Padding(
