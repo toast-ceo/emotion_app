@@ -33,3 +33,15 @@ flutter:
   uses-material-design: true
   assets:
     - pic/
+
+  fonts:
+    - family: GowunDodum
+      fonts:
+        - asset: fonts\GowunDodum-Regular.ttf
+
+    - family: PoiretOne
+      fonts:
+        - asset: fonts\PoiretOne-Regular.ttf
+
+
+

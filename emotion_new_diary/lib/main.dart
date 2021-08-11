@@ -16,7 +16,7 @@ void main() {
         debugShowCheckedModeBanner: false,
         title: 'one day diary',
         theme: ThemeData(
-          //fontFamily: 'Caveat',
+          fontFamily: 'PoiretOne',
           primaryColor: Colors.white,
         ),
         initialRoute: '/start',
