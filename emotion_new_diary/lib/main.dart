@@ -1,3 +1,5 @@
+
+import 'package:emotion_new_diary/screens/basic_screens/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,7 +21,7 @@ void main() {
         ),
         initialRoute: '/start',
         routes: {
-
+          '/start' : (context) => StartScreen(),
         },
       ),
     ),
