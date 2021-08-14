@@ -1,4 +1,5 @@
-
+import 'package:emotion_new_diary/model/style.dart';
+import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/home_screen.dart';
 import 'package:emotion_new_diary/screens/basic_screens/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,11 +18,12 @@ void main() {
         title: 'one day diary',
         theme: ThemeData(
           fontFamily: 'PoiretOne',
-          primaryColor: Colors.white,
+          primaryColor: Colors.white ,
         ),
         initialRoute: '/start',
         routes: {
           '/start' : (context) => StartScreen(),
+          '/home' : (context) => HomeScreen(),
         },
       ),
     ),

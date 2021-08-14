@@ -1,8 +1,5 @@
+import 'package:emotion_new_diary/model/style.dart';
 import 'package:flutter/material.dart';
-
-
-import 'package:emotion_new_diary/model/provider.dart';
-import 'package:provider/provider.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -11,23 +8,46 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   @override
+
+  void initState(){
+    super.initState();
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.pushReplacementNamed(context, '/home');
+    });}
+
   Widget build(BuildContext context) {
-    Products data = Provider.of<Products>(context);
+    StyleModel styleModel = new StyleModel(context);
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            //시작 버튼
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(child: Text('What Is Your Colors?',)),
-              ],
-            ),
-            //기타 환경설정, 개발자들 표시
-            Column(),
-          ],
-        )
-    );
+        backgroundColor: styleModel.getBackgroundColor()['backgroundColor1'],
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: styleModel.getContextSize()['screenWidthLevel3'],
+                height: styleModel.getContextSize()['screenWidthLevel8'],
+               decoration: BoxDecoration(
+                 gradient: LinearGradient(
+                   begin: Alignment.topLeft,
+                   end: Alignment.bottomRight,
+                   colors: <Color> [
+                     styleModel.getBackgroundColor()['backgroundColor2'],
+                     styleModel.getBackgroundColor()['backgroundColor3'],
+                     styleModel.getBackgroundColor()['backgroundColor4'],
+                     styleModel.getBackgroundColor()['backgroundColor5'],
+                     styleModel.getBackgroundColor()['backgroundColor6'],
+                   ],
+                 ),
+               ),
+                child: Center(
+                  child: Text(
+                    "What is Your Colors?",
+                    style: styleModel.getTextStyle()['titleTextStyle'],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }
