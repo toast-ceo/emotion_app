@@ -1,8 +1,8 @@
 import 'package:emotion_new_diary/model/style.dart';
-import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/information_screen.dart';
-import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/read_screen.dart';
-import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/setting_screen.dart';
-import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/write_screen.dart';
+import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/mainscreen/information_screen.dart';
+import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/mainscreen/read_screen.dart';
+import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/mainscreen/setting_screen.dart';
+import 'package:emotion_new_diary/screens/basic_screens/bodyscreens/mainscreen/write_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -49,10 +48,9 @@ class _HomeScreenState extends State<HomeScreen> {
     WriteScreen(),
   ];
 
-
   @override
   Widget build(BuildContext context) {
-    StyleModel styleModel = new StyleModel(context);
+    final styleModel = new StyleModel(context);
     return Scaffold(
       body: _bodyScreens[_selectedIndex],
       bottomNavigationBar: Container(
@@ -60,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.only(
               topRight: Radius.circular(30), topLeft: Radius.circular(30)),
           boxShadow: [
-            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+            BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 2),
           ],
         ),
         child: ClipRRect(

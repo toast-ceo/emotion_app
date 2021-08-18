@@ -16,7 +16,7 @@ class _StartScreenState extends State<StartScreen> {
     });}
 
   Widget build(BuildContext context) {
-    StyleModel styleModel = new StyleModel(context);
+    final styleModel = new StyleModel(context);
     return Scaffold(
         backgroundColor: styleModel.getBackgroundColor()['backgroundColor1'],
         body: Center(

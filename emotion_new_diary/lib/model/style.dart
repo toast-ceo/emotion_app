@@ -5,7 +5,7 @@ Color hexToColor(String code) {
   return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
 }
 
-class StyleModel {
+class StyleModel extends ChangeNotifier {
   StyleModel(this.context, {this.currentTheme});
 
   BuildContext context;
@@ -14,6 +14,13 @@ class StyleModel {
   Map<String, Color> backgroundColor;
   Map<String, TextStyle> textStyle;
   String currentTheme;
+
+  @override
+  void notifyListeners() {
+    getContextSize();
+    getBackgroundColor();
+    getContextSize();
+  }
 
   //배경 색
   Map<String, dynamic> getBackgroundColor() {
@@ -24,8 +31,9 @@ class StyleModel {
       'backgroundColor4': hexToColor("#FEE893"),
       'backgroundColor5': hexToColor("#FAC8BF"),
       'backgroundColor6': hexToColor("#FEDCC1"),
-      'selectColor1' : Colors.black12,
-      'selectColor2' : Colors.black.withOpacity(0.8),
+      'homeBackgroundColor1': Colors.grey[150],
+      'selectColor1': Colors.black12,
+      'selectColor2': Colors.black.withOpacity(0.8),
     };
     return backgroundColor;
   }
@@ -40,14 +48,38 @@ class StyleModel {
         color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
-
       'bodyTextStyle1': TextStyle(
         fontSize: size.height * 0.032,
-        color: Colors.black,
+        color: Colors.grey.shade600,
         fontWeight: FontWeight.w400,
       ),
-
+      'infoTextStyle1': TextStyle(
+          fontSize: size.height * 0.032,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w600,
+          fontFamily: "NanumGothicBold"),
+      'infoTextStyle2': TextStyle(
+          fontSize: size.height * 0.04,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w800,
+          fontFamily: "NanumGothicBold"),
+      'infoTextStyle3': TextStyle(
+        fontSize: size.height * 0.028,
+        color: Colors.grey.shade600,
+        fontWeight: FontWeight.w400,
+      ),
+      'infoTextStyle4': TextStyle(
+        fontSize: size.height * 0.02,
+        color: Colors.grey.shade600,
+        fontWeight: FontWeight.w700,
+      ),
+      'infoTextStyle5': TextStyle(
+        fontSize: size.height * 0.018,
+        color: Colors.grey.shade600,
+        fontWeight: FontWeight.w700,
+      )
     };
+
     return textStyle;
   }
 
@@ -64,6 +96,7 @@ class StyleModel {
       'screenHeightLevel5': size.height * 0.5,
       'screenHeightLevel6': size.height * 0.4,
       'screenHeightLevel7': size.height * 0.3,
+      'screenHeightLevel7.5': size.height * 0.25,
       'screenHeightLevel8': size.height * 0.2,
       'screenHeightLevel8.5': size.height * 0.15,
       'screenHeightLevel9': size.height * 0.1,
@@ -89,7 +122,6 @@ class StyleModel {
       'smallIconSize': size.height * 0.015,
       'smallFontSize': size.height * 0.015,
     };
-
     return contextSize;
   }
 }

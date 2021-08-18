@@ -14,7 +14,7 @@ dependencies:
 
   provider: ^4.1.2
 
-  intl: ^0.16.1
+  intl: ^0.17.0
 
   table_calendar: ^2.3.3
 
@@ -23,6 +23,9 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   http: ^0.12.2
+
+  syncfusion_flutter_charts: ^19.2.56
+
 
 dev_dependencies:
   flutter_test:
@@ -37,11 +40,14 @@ flutter:
   fonts:
     - family: GowunDodum
       fonts:
-        - asset: fonts\GowunDodum-Regular.ttf
+        - asset: fonts/GowunDodum-Regular.ttf
 
     - family: PoiretOne
       fonts:
-        - asset: fonts\PoiretOne-Regular.ttf
+        - asset: fonts/PoiretOne-Regular.ttf
 
-
-
+    - family: NanumGothic
+      fonts :
+        - asset: fonts/NanumGothic-Regular.ttf
+        - asset: fonts/NanumGothic-Bold.ttf
+        - asset: fonts/NanumGothic-ExtraBold.ttf
