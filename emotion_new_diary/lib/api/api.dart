@@ -15,4 +15,13 @@ class Api  with ChangeNotifier {
     return temp['body'];
   }
 
+  Future fetchPostInfo(String year) async {
+    String infoUri = uri + '&year=$year';
+    final response = await http.get(Uri.parse(infoUri));
+    var temp = jsonDecode(response.body);
+    print(temp);
+    notifyListeners();
+    return temp['body'];
+  }
+
 }
