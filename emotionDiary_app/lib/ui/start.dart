@@ -91,7 +91,8 @@ class _StartPageState extends State<StartPage> {
                                 fontSize: 30, fontWeight: FontWeight.w300),
                           ),
                           onTap: () {
-                            userdata.serverCall('KIM');
+                            userdata.
+                            serverCall('KIM');
                             Navigator.of(context).pushReplacementNamed('/menu');
                           },
                         ),

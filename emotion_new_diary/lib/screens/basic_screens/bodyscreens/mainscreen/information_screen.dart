@@ -12,23 +12,59 @@ class InformationScreen extends StatefulWidget {
 
 class _InformationScreenState extends State<InformationScreen> {
   int count;
+  TextEditingController yController = TextEditingController();
+  String yearText;
+  var _styleModel;
+
   final List<Map> emotionDate = [
-    {
-      "emotion_type": "unknown",
-      "year_count": "70",
-      "color": "backgroundColor3"
-    },
+    {"emotion_type": "unknown", "year_count": "70", "color": "backgroundColor3"},
     {"emotion_type": "happy", "year_count": "30", "color": "backgroundColor4"},
     {"emotion_type": "mood", "year_count": "40", "color": "backgroundColor6"},
     {"emotion_type": "blue", "year_count": "20", "color": "backgroundColor2"},
     {"emotion_type": "angry", "year_count": "10", "color": "backgroundColor5"},
   ];
 
-  var _styleModel;
+
+  // 년도 설정
+  yearPicker() {
+    final year = DateTime.now().year;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            '시작년도를 입력하세요',
+            textAlign: TextAlign.center,
+          ),
+          content: Container(
+            height: MediaQuery.of(context).size.height / 4.0,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.grey[200],
+            child: YearPicker(
+              selectedDate: DateTime(year - 10),
+              firstDate: DateTime(year - 10),
+              lastDate: DateTime(year + 10),
+              onChanged: (value) {
+                setState(() {
+                  yController.text = value.toString().substring(0, 4);
+                  yearText = yController.text;
+                  print(yearText);
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+
+    yearText = DateTime.now().year.toString();
     count = int.parse(emotionDate[0]["year_count"]) +
         int.parse(emotionDate[1]["year_count"]) +
         int.parse(emotionDate[2]["year_count"]) +
@@ -40,16 +76,13 @@ class _InformationScreenState extends State<InformationScreen> {
   Widget build(BuildContext context) {
     final styleModel = StyleModel(context);
     _styleModel = styleModel;
+
     final List<ChartData> chartData = [
-      ChartData(
-          'blue', 10, styleModel.getBackgroundColor()["backgroundColor2"]),
-      ChartData(
-          'unknown', 2, styleModel.getBackgroundColor()["backgroundColor3"]),
-      ChartData(
-          'happy', 20, styleModel.getBackgroundColor()["backgroundColor4"]),
+      ChartData('blue', 10, styleModel.getBackgroundColor()["backgroundColor2"]),
+      ChartData('unknown', 2, styleModel.getBackgroundColor()["backgroundColor3"]),
+      ChartData('happy', 20, styleModel.getBackgroundColor()["backgroundColor4"]),
       ChartData('mood', 2, styleModel.getBackgroundColor()["backgroundColor6"]),
-      ChartData(
-          'angry', 8, styleModel.getBackgroundColor()["backgroundColor5"]),
+      ChartData('angry', 8, styleModel.getBackgroundColor()["backgroundColor5"]),
     ];
 
     return Scaffold(
@@ -68,9 +101,18 @@ class _InformationScreenState extends State<InformationScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
-                        child: Text(
-                          "2021년",
-                          style: styleModel.getTextStyle()["infoTextStyle1"],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            FlatButton(
+                              child: Text(
+                                "$yearText년",
+                                style:
+                                    styleModel.getTextStyle()["infoTextStyle1"],
+                              ),
+                              onPressed: yearPicker,
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
@@ -136,11 +178,32 @@ class _InformationScreenState extends State<InformationScreen> {
                           SizedBox(
                             height: 20,
                           ),
-                          containerChart(int.parse(emotionDate[0]["year_count"]), count, emotionDate[0]["emotion_type"],emotionDate[0]["color"]),
-                          containerChart(int.parse(emotionDate[1]["year_count"]), count, emotionDate[1]["emotion_type"],emotionDate[1]["color"]),
-                          containerChart(int.parse(emotionDate[2]["year_count"]), count, emotionDate[2]["emotion_type"],emotionDate[2]["color"]),
-                          containerChart(int.parse(emotionDate[3]["year_count"]), count, emotionDate[3]["emotion_type"],emotionDate[3]["color"]),
-                          containerChart(int.parse(emotionDate[4]["year_count"]), count, emotionDate[4]["emotion_type"],emotionDate[4]["color"]),
+                          containerChart(
+                              int.parse(emotionDate[0]["year_count"]),
+                              count,
+                              emotionDate[0]["emotion_type"],
+                              emotionDate[0]["color"]),
+                          containerChart(
+                              int.parse(emotionDate[1]["year_count"]),
+                              count,
+                              emotionDate[1]["emotion_type"],
+                              emotionDate[1]["color"]),
+                          containerChart(
+                              int.parse(emotionDate[2]["year_count"]),
+                              count,
+                              emotionDate[2]["emotion_type"],
+                              emotionDate[2]["color"]),
+                          containerChart(
+                              int.parse(emotionDate[3]["year_count"]),
+                              count,
+                              emotionDate[3]["emotion_type"],
+                              emotionDate[3]["color"]),
+                          containerChart(
+                              int.parse(emotionDate[4]["year_count"]),
+                              count,
+                              emotionDate[4]["emotion_type"],
+                              emotionDate[4]["color"]),
+                          Divider(),
                         ],
                       ),
                     ),
@@ -163,16 +226,29 @@ class _InformationScreenState extends State<InformationScreen> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width * 0.18,
-              child: Center(child: Text(name,style: _styleModel.getTextStyle()["infoTextStyle5"],)),
+              child: Center(
+                  child: Text(
+                name,
+                style: _styleModel.getTextStyle()["infoTextStyle5"],
+              )),
             ),
             Container(
-                width: MediaQuery.of(context).size.width * 0.64 * (count / allCount),
-                child: Container(
-                  color: _styleModel.getBackgroundColor()[color]),
-                ),
+              width:
+                  MediaQuery.of(context).size.width * 0.64 * (count / allCount),
+              decoration: BoxDecoration(
+                color: _styleModel.getBackgroundColor()[color],
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    bottomRight: Radius.circular(30)),
+              ),
+            ),
             Container(
               width: MediaQuery.of(context).size.width * 0.18,
-              child: Center(child: Text("$count",style: _styleModel.getTextStyle()["infoTextStyle5"],)),
+              child: Center(
+                  child: Text(
+                "$count",
+                style: _styleModel.getTextStyle()["infoTextStyle5"],
+              )),
             ),
           ],
         ),
