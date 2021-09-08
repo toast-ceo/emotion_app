@@ -40,11 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final styleModel = new StyleModel(context);
-    Api api = Provider.of(context);
-    return FutureBuilder(
-      future: api.fetchPost(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return Scaffold(
+    return Scaffold(
           body: _bodyScreens[_selectedIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
@@ -126,7 +122,5 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         );
-      },
-    );
   }
 }

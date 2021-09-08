@@ -13,22 +13,11 @@ class InformationScreen extends StatefulWidget {
 }
 
 class _InformationScreenState extends State<InformationScreen> {
-  int count;
+  int count = 0;
   TextEditingController yController = TextEditingController();
   String yearText;
   var _styleModel;
-
-  final List<Map> emotionDate = [
-    {
-      "emotion_type": "unknown",
-      "year_count": "70",
-      "color": "backgroundColor3"
-    },
-    {"emotion_type": "happy", "year_count": "30", "color": "backgroundColor4"},
-    {"emotion_type": "mood", "year_count": "40", "color": "backgroundColor6"},
-    {"emotion_type": "blue", "year_count": "20", "color": "backgroundColor2"},
-    {"emotion_type": "angry", "year_count": "10", "color": "backgroundColor5"},
-  ];
+  final List<ChartData> chartData = [];
 
   // 년도 설정
   yearPicker() {
@@ -67,14 +56,8 @@ class _InformationScreenState extends State<InformationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    super.initState();
     yearText = DateTime.now().year.toString();
-    count = int.parse(emotionDate[0]["year_count"]) +
-        int.parse(emotionDate[1]["year_count"]) +
-        int.parse(emotionDate[2]["year_count"]) +
-        int.parse(emotionDate[3]["year_count"]) +
-        int.parse(emotionDate[4]["year_count"]);
   }
 
   @override
@@ -83,25 +66,29 @@ class _InformationScreenState extends State<InformationScreen> {
     final styleModel = StyleModel(context);
     _styleModel = styleModel;
 
-    final List<ChartData> chartData = [
-      ChartData(
-          'blue', 10, styleModel.getBackgroundColor()["backgroundColor2"]),
-      ChartData(
-          'unknown', 2, styleModel.getBackgroundColor()["backgroundColor3"]),
-      ChartData(
-          'happy', 20, styleModel.getBackgroundColor()["backgroundColor4"]),
-      ChartData('mood', 2, styleModel.getBackgroundColor()["backgroundColor6"]),
-      ChartData(
-          'angry', 8, styleModel.getBackgroundColor()["backgroundColor5"]),
-    ];
 
     return FutureBuilder(
       future: api.fetchPostInfo(yearText),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return Scaffold(
-          backgroundColor:
-              styleModel.getBackgroundColor()['homeBackgroundColor1'],
-          body: Container(
+
+        //총 일기 카운트
+        count = snapshot.data[0]["year_count"] +
+            snapshot.data[1]["year_count"] +
+            snapshot.data[2]["year_count"] +
+            snapshot.data[3]["year_count"] +
+            snapshot.data[4]["year_count"];
+
+        //ChartData 리스트에 변수를 넣어주는 부분
+        for(int a = 0; a<5; a++){
+          chartData.add(ChartData(
+              snapshot.data[a]["emotion_type"],
+              double.parse(snapshot.data[a]["year_count"].toString()),
+              styleModel.getBackgroundColor()[snapshot.data[a]["color"]]));
+        }
+
+
+        if (snapshot.hasData) {
+          return Container(
             height: MediaQuery.of(context).size.height,
             child: Center(
               child: Column(
@@ -196,30 +183,30 @@ class _InformationScreenState extends State<InformationScreen> {
                                 height: 20,
                               ),
                               containerChart(
-                                  int.parse(emotionDate[0]["year_count"]),
+                                  snapshot.data[0]["year_count"],
                                   count,
-                                  emotionDate[0]["emotion_type"],
-                                  emotionDate[0]["color"]),
+                                  snapshot.data[0]["emotion_type"],
+                                  snapshot.data[0]["color"]),
                               containerChart(
-                                  int.parse(emotionDate[1]["year_count"]),
+                                  snapshot.data[1]["year_count"],
                                   count,
-                                  emotionDate[1]["emotion_type"],
-                                  emotionDate[1]["color"]),
+                                  snapshot.data[1]["emotion_type"],
+                                  snapshot.data[1]["color"]),
                               containerChart(
-                                  int.parse(emotionDate[2]["year_count"]),
+                                  snapshot.data[2]["year_count"],
                                   count,
-                                  emotionDate[2]["emotion_type"],
-                                  emotionDate[2]["color"]),
+                                  snapshot.data[2]["emotion_type"],
+                                  snapshot.data[2]["color"]),
                               containerChart(
-                                  int.parse(emotionDate[3]["year_count"]),
+                                  snapshot.data[3]["year_count"],
                                   count,
-                                  emotionDate[3]["emotion_type"],
-                                  emotionDate[3]["color"]),
+                                  snapshot.data[3]["emotion_type"],
+                                  snapshot.data[3]["color"]),
                               containerChart(
-                                  int.parse(emotionDate[4]["year_count"]),
+                                  snapshot.data[4]["year_count"],
                                   count,
-                                  emotionDate[4]["emotion_type"],
-                                  emotionDate[4]["color"]),
+                                  snapshot.data[4]["emotion_type"],
+                                  snapshot.data[4]["color"]),
                               Divider(),
                             ],
                           ),
@@ -230,8 +217,9 @@ class _InformationScreenState extends State<InformationScreen> {
                 ],
               ),
             ),
-          ),
-        );
+          );
+        }
+        else {return Center(child: CircularProgressIndicator());}
       },
     );
   }
