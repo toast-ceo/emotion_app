@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:emotion_new_diary/model/style.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -17,7 +18,263 @@ class _InformationScreenState extends State<InformationScreen> {
   TextEditingController yController = TextEditingController();
   String yearText;
   var _styleModel;
-  final List<ChartData> chartData = [];
+  List<ChartData> _chartData = [ChartData("Hello", 0, Colors.white)];
+
+  List<ChartData> get chartData => _chartData;
+  Api _api;
+
+  Api get api => _api;
+
+  @override
+  void initState() {
+    super.initState();
+    _api = new Api();
+    yearText = DateTime.now().year.toString();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final styleModel = StyleModel(context);
+    _styleModel = styleModel;
+
+    return FutureBuilder(
+      future: api.fetchPostInfo(yearText),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        print(snapshot.data);
+        if (snapshot.hasData) {
+          //ChartData 리스트에 변수를 넣어주는 부분
+          _chartData.clear();
+          for (int a = 0; a < 5; a++) {
+            _chartData.add(ChartData(
+                snapshot.data[a]["emotion_type"],
+                double.parse(snapshot.data[a]["year_count"].toString()),
+                styleModel.getBackgroundColor()[snapshot.data[a]["color"]]));
+
+            //총 일기 카운트
+            count = snapshot.data[0]["year_count"] +
+                snapshot.data[1]["year_count"] +
+                snapshot.data[2]["year_count"] +
+                snapshot.data[3]["year_count"] +
+                snapshot.data[4]["year_count"];
+          }
+          return snapshot.connectionState == ConnectionState.done
+              ? Container(
+                  height: MediaQuery.of(context).size.height,
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Card(
+                          child: Container(
+                            height: styleModel
+                                .getContextSize()["screenHeightLevel8"],
+                            width: MediaQuery.of(context).size.width * 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 30, 10, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      FlatButton(
+                                        child: Text(
+                                          "$yearText년",
+                                          style: styleModel
+                                              .getTextStyle()["infoTextStyle1"],
+                                        ),
+                                        onPressed: yearPicker,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                  child: Text(
+                                    "삭님의 일기분석",
+                                    style: styleModel
+                                        .getTextStyle()["infoTextStyle2"],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          elevation: 1,
+                        ),
+                        Container(
+                          height:
+                              styleModel.getContextSize()["screenHeightLevel3"],
+                          width: MediaQuery.of(context).size.width * 1,
+                          child: ListView(
+                            children: [
+                              //수정할 부분
+                              Center(
+                                  child: Container(
+                                      child: Text(
+                                "행복한 일이 많군요!",
+                                style:
+                                    styleModel.getTextStyle()["bodyTextStyle1"],
+                              ))),
+                              Container(
+                                  height: styleModel
+                                      .getContextSize()["screenHeightLevel7"],
+                                  child: SfCircularChart(
+                                      legend: Legend(
+                                          isVisible: true,
+                                          overflowMode:
+                                              LegendItemOverflowMode.wrap),
+                                      series: <CircularSeries>[
+                                        // Render pie chart
+                                        PieSeries<ChartData, String>(
+                                          dataSource: chartData,
+                                          pointColorMapper:
+                                              (ChartData data, _) => data.color,
+                                          xValueMapper: (ChartData data, _) =>
+                                              data.x,
+                                          yValueMapper: (ChartData data, _) =>
+                                              data.y,
+                                        )
+                                      ])),
+
+                              Divider(),
+                              Container(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      "일기 현황",
+                                      style: styleModel
+                                          .getTextStyle()["infoTextStyle3"],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "$count 번의 일기를 작성하셨어요!",
+                                      style: styleModel
+                                          .getTextStyle()["infoTextStyle4"],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    containerChart(
+                                        snapshot.data[0]["year_count"],
+                                        count,
+                                        snapshot.data[0]["emotion_type"],
+                                        snapshot.data[0]["color"]),
+                                    containerChart(
+                                        snapshot.data[1]["year_count"],
+                                        count,
+                                        snapshot.data[1]["emotion_type"],
+                                        snapshot.data[1]["color"]),
+                                    containerChart(
+                                        snapshot.data[2]["year_count"],
+                                        count,
+                                        snapshot.data[2]["emotion_type"],
+                                        snapshot.data[2]["color"]),
+                                    containerChart(
+                                        snapshot.data[3]["year_count"],
+                                        count,
+                                        snapshot.data[3]["emotion_type"],
+                                        snapshot.data[3]["color"]),
+                                    containerChart(
+                                        snapshot.data[4]["year_count"],
+                                        count,
+                                        snapshot.data[4]["emotion_type"],
+                                        snapshot.data[4]["color"]),
+                                    Divider(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              : Center(child: CircularProgressIndicator());
+        } else {
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            child: Center(
+              child: Column(children: [
+                Card(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FlatButton(
+                                child: Text(
+                                  "$yearText년",
+                                  style: styleModel
+                                      .getTextStyle()["infoTextStyle1"],
+                                ),
+                                onPressed: yearPicker,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                          child: Text(
+                            "삭님의 일기분석",
+                            style: styleModel.getTextStyle()["infoTextStyle2"],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  elevation: 1,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: Container(
+                      width: styleModel.getContextSize()['screenWidthLevel3'],
+                      height: styleModel.getContextSize()['screenWidthLevel8'],
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color> [
+                            styleModel.getBackgroundColor()['backgroundColor2'],
+                            styleModel.getBackgroundColor()['backgroundColor3'],
+                            styleModel.getBackgroundColor()['backgroundColor4'],
+                            styleModel.getBackgroundColor()['backgroundColor5'],
+                            styleModel.getBackgroundColor()['backgroundColor6'],
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "No information :(",
+                          style: styleModel.getTextStyle()['titleTextStyle'],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ]),
+            ),
+          );
+        }
+      },
+    );
+  }
 
   // 년도 설정
   yearPicker() {
@@ -43,183 +300,13 @@ class _InformationScreenState extends State<InformationScreen> {
                 setState(() {
                   yController.text = value.toString().substring(0, 4);
                   yearText = yController.text;
-                  print(yearText);
+                  api.fetchPostInfo(yearText);
                   Navigator.of(context).pop();
                 });
               },
             ),
           ),
         );
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    yearText = DateTime.now().year.toString();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Api api = Provider.of(context);
-    final styleModel = StyleModel(context);
-    _styleModel = styleModel;
-
-
-    return FutureBuilder(
-      future: api.fetchPostInfo(yearText),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-        //총 일기 카운트
-        count = snapshot.data[0]["year_count"] +
-            snapshot.data[1]["year_count"] +
-            snapshot.data[2]["year_count"] +
-            snapshot.data[3]["year_count"] +
-            snapshot.data[4]["year_count"];
-
-        //ChartData 리스트에 변수를 넣어주는 부분
-        for(int a = 0; a<5; a++){
-          chartData.add(ChartData(
-              snapshot.data[a]["emotion_type"],
-              double.parse(snapshot.data[a]["year_count"].toString()),
-              styleModel.getBackgroundColor()[snapshot.data[a]["color"]]));
-        }
-
-
-        if (snapshot.hasData) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            child: Center(
-              child: Column(
-                children: [
-                  Card(
-                    child: Container(
-                      height: styleModel.getContextSize()["screenHeightLevel8"],
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                FlatButton(
-                                  child: Text(
-                                    "$yearText년",
-                                    style: styleModel
-                                        .getTextStyle()["infoTextStyle1"],
-                                  ),
-                                  onPressed: yearPicker,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                            child: Text(
-                              "삭님의 일기분석",
-                              style:
-                                  styleModel.getTextStyle()["infoTextStyle2"],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    elevation: 1,
-                  ),
-                  Container(
-                    height: styleModel.getContextSize()["screenHeightLevel3"],
-                    width: MediaQuery.of(context).size.width * 1,
-                    child: ListView(
-                      children: [
-                        //수정할 부분
-                        Center(
-                            child: Container(
-                                child: Text(
-                          "행복한 일이 많군요!",
-                          style: styleModel.getTextStyle()["bodyTextStyle1"],
-                        ))),
-                        Container(
-                            height: styleModel
-                                .getContextSize()["screenHeightLevel7"],
-                            child: SfCircularChart(
-                                legend: Legend(
-                                    isVisible: true,
-                                    overflowMode: LegendItemOverflowMode.wrap),
-                                series: <CircularSeries>[
-                                  // Render pie chart
-                                  PieSeries<ChartData, String>(
-                                    dataSource: chartData,
-                                    pointColorMapper: (ChartData data, _) =>
-                                        data.color,
-                                    xValueMapper: (ChartData data, _) => data.x,
-                                    yValueMapper: (ChartData data, _) => data.y,
-                                  )
-                                ])),
-
-                        Divider(),
-                        Container(
-                          child: Column(
-                            children: [
-                              Text(
-                                "일기 현황",
-                                style:
-                                    styleModel.getTextStyle()["infoTextStyle3"],
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "$count 번의 일기를 작성하셨어요!",
-                                style:
-                                    styleModel.getTextStyle()["infoTextStyle4"],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              containerChart(
-                                  snapshot.data[0]["year_count"],
-                                  count,
-                                  snapshot.data[0]["emotion_type"],
-                                  snapshot.data[0]["color"]),
-                              containerChart(
-                                  snapshot.data[1]["year_count"],
-                                  count,
-                                  snapshot.data[1]["emotion_type"],
-                                  snapshot.data[1]["color"]),
-                              containerChart(
-                                  snapshot.data[2]["year_count"],
-                                  count,
-                                  snapshot.data[2]["emotion_type"],
-                                  snapshot.data[2]["color"]),
-                              containerChart(
-                                  snapshot.data[3]["year_count"],
-                                  count,
-                                  snapshot.data[3]["emotion_type"],
-                                  snapshot.data[3]["color"]),
-                              containerChart(
-                                  snapshot.data[4]["year_count"],
-                                  count,
-                                  snapshot.data[4]["emotion_type"],
-                                  snapshot.data[4]["color"]),
-                              Divider(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        }
-        else {return Center(child: CircularProgressIndicator());}
       },
     );
   }
