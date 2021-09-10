@@ -28,7 +28,6 @@ class _InformationScreenState extends State<InformationScreen> {
   @override
   void initState() {
     super.initState();
-    _api = new Api();
     yearText = DateTime.now().year.toString();
   }
 
@@ -36,7 +35,8 @@ class _InformationScreenState extends State<InformationScreen> {
   Widget build(BuildContext context) {
     final styleModel = StyleModel(context);
     _styleModel = styleModel;
-
+    Api api = Provider.of<Api>(context);
+    _api = api;
     return FutureBuilder(
       future: api.fetchPostInfo(yearText),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -250,7 +250,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: <Color> [
+                          colors: <Color>[
                             styleModel.getBackgroundColor()['backgroundColor2'],
                             styleModel.getBackgroundColor()['backgroundColor3'],
                             styleModel.getBackgroundColor()['backgroundColor4'],

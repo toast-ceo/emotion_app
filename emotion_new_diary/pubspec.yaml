@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.8.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -17,8 +17,6 @@ dependencies:
   intl: ^0.17.0
 
   table_calendar: ^2.3.3
-
-  hexcolor: ^1.0.6
 
   cupertino_icons: ^1.0.2
 

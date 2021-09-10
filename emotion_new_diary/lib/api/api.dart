@@ -7,6 +7,12 @@ import 'package:http/http.dart' as http;
 
 class Api with ChangeNotifier {
   String uri = ApiInfo.uri;
+  Map<String, dynamic> userAllData = {};
+
+
+  void inputData(var temp) {
+    userAllData = temp;
+  }
 
   Future fetchPost() async {
     final response = await http.get(Uri.parse(uri));

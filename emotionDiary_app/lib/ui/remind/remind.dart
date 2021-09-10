@@ -12,28 +12,26 @@ class RemindPage extends StatefulWidget {
 }
 
 class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
-
-
   Map<DateTime, List> _events = {};
   List _selectedEvents;
   AnimationController _animationController;
   CalendarController _calendarController = CalendarController();
   DateTime selectedDay;
   String sex;
+
   @override
   void initState() {
     super.initState();
     final _selectedDay = DateTime.now();
     Products userdata = Provider.of<Products>(context, listen: false);
 
-
-    for(int a= 0; a< userdata.userAllData.length; a++){
-      _events[DateTime.parse(userdata.userAllData.keys.toList()[a])] = userdata.userAllData.values.toList()[a];
+    for (int a = 0; a < userdata.userAllData.length; a++) {
+      _events[DateTime.parse(userdata.userAllData.keys.toList()[a])] =
+          userdata.userAllData.values.toList()[a];
       print(_events);
     }
 
     sex = userdata.sex;
-
     _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
     _animationController = AnimationController(
@@ -69,27 +67,29 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
     print('CALLBACK: _onCalendarCreated');
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
-          toolbarHeight: 50,
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          title: Text("Calender", style: TextStyle(fontSize: 25,fontWeight: FontWeight.w300),),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: Colors.grey,
-            ),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, "/menu");
-            },
+        toolbarHeight: 50,
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        title: Text(
+          "Calender",
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            size: 30,
+            color: Colors.grey,
           ),
-        actions: <Widget> [
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, "/menu");
+          },
+        ),
+        actions: <Widget>[
           IconButton(
             icon: Icon(
               Icons.book,
@@ -164,14 +164,19 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
       },
       calendarStyle: CalendarStyle(
         outsideDaysVisible: false,
-        outsideWeekendStyle: TextStyle().copyWith(color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"),
-        eventDayStyle: TextStyle().copyWith(fontFamily: "NanumMyeongjo"), //이벤트 있는 숫자
-        weekdayStyle: TextStyle().copyWith(fontFamily: "NanumMyeongjo"), //달력 숫자
-        weekendStyle: TextStyle().copyWith(color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"), //휴일 숫자 색
+        outsideWeekendStyle: TextStyle()
+            .copyWith(color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"),
+        eventDayStyle: TextStyle().copyWith(fontFamily: "NanumMyeongjo"),
+        //이벤트 있는 숫자
+        weekdayStyle: TextStyle().copyWith(fontFamily: "NanumMyeongjo"),
+        //달력 숫자
+        weekendStyle: TextStyle().copyWith(
+            color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"), //휴일 숫자 색
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(fontFamily: "NanumMyeongjo"),
-        weekendStyle: TextStyle().copyWith(color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"),
+        weekendStyle: TextStyle()
+            .copyWith(color: HexColor("#4F8FA8"), fontFamily: "NanumMyeongjo"),
       ),
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
@@ -266,13 +271,12 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
   Widget _buildEventList() {
     return ListView.builder(
         itemCount: _selectedEvents.length,
-        itemBuilder: (context, index){
+        itemBuilder: (context, index) {
           return Container(
             decoration: BoxDecoration(
               border: Border.all(width: 0.8),
             ),
-            margin:
-            const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2),
+            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2),
             child: Row(
               children: [
                 FlatButton(
@@ -288,7 +292,7 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
                             height: 80,
                             decoration: BoxDecoration(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(2.0)),
+                                  BorderRadius.all(Radius.circular(2.0)),
                               image: DecorationImage(
                                 alignment: Alignment.center,
                                 image: AssetImage(
@@ -341,20 +345,19 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
                         iconSize: 20,
                         color: Colors.grey,
                         onPressed: () {
-                          cancelCheckDialog(context,  index, _selectedEvents[index]);
+                          cancelCheckDialog(
+                              context, index, _selectedEvents[index]);
                         }),
                   ],
                 )
               ],
             ),
           );
-        }
-
-    );
+        });
   }
 
-  void cancelCheckDialog(BuildContext context,  int removeIndex, var removeData) {
-
+  void cancelCheckDialog(
+      BuildContext context, int removeIndex, var removeData) {
     print(context);
     print(removeData);
 
@@ -363,13 +366,12 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
         //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
         barrierDismissible: false,
         builder: (BuildContext context) {
-
           Products userdata = Provider.of<Products>(context, listen: false);
 
           return AlertDialog(
             // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
             //Dialog Main Title
             title: Column(
               children: <Widget>[
@@ -394,19 +396,31 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
               Row(
                 children: [
                   new FlatButton(
-                    child: new Text("취소", style: TextStyle(fontSize: 20, fontFamily: "NanumPenScript",color: Colors.black),),
+                    child: new Text(
+                      "취소",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "NanumPenScript",
+                          color: Colors.black),
+                    ),
                     onPressed: () {
                       Navigator.pop(context);
                     },
                   ),
                   new FlatButton(
-                    child: new Text("확인",style: TextStyle(fontSize: 20, fontFamily: "NanumPenScript",color: Colors.black),),
+                    child: new Text(
+                      "확인",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "NanumPenScript",
+                          color: Colors.black),
+                    ),
                     onPressed: () {
-                     setState(() {
-                       print(selectedDay.runtimeType);
-                       userdata.removeText(removeData);
-                     });
-                     Navigator.of(context).pushReplacementNamed('/menu');
+                      setState(() {
+                        print(selectedDay.runtimeType);
+                        userdata.removeText(removeData);
+                      });
+                      Navigator.of(context).pushReplacementNamed('/menu');
                     },
                   ),
                 ],
@@ -415,7 +429,6 @@ class _RemindPageState extends State<RemindPage> with TickerProviderStateMixin {
           );
         });
   }
-
 }
 
 /*
