@@ -62,7 +62,7 @@ class StyleModel extends ChangeNotifier {
           fontSize: size.height * 0.04,
           color: Colors.grey.shade600,
           fontWeight: FontWeight.w800,
-          fontFamily: "NanumGothicBold"),
+          fontFamily: "NanumMyeongjo"),
       'infoTextStyle3': TextStyle(
         fontSize: size.height * 0.028,
         color: Colors.grey.shade600,
@@ -77,7 +77,17 @@ class StyleModel extends ChangeNotifier {
         fontSize: size.height * 0.018,
         color: Colors.grey.shade600,
         fontWeight: FontWeight.w700,
-      )
+      ),
+      'calenderTextStyle1': TextStyle(
+          fontSize: size.height * 0.023,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'calenderTextStyle2': TextStyle(
+          fontSize: size.height * 0.024,
+          color: Colors.grey.shade900,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
     };
 
     return textStyle;
@@ -95,6 +105,7 @@ class StyleModel extends ChangeNotifier {
       'screenHeightLevel4': size.height * 0.6,
       'screenHeightLevel5': size.height * 0.5,
       'screenHeightLevel6': size.height * 0.4,
+      'screenHeightLevel6.5': size.height * 0.35,
       'screenHeightLevel7': size.height * 0.3,
       'screenHeightLevel7.5': size.height * 0.25,
       'screenHeightLevel8': size.height * 0.2,

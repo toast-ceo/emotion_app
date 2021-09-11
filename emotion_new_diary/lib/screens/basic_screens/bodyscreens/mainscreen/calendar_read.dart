@@ -5,6 +5,7 @@ import 'package:emotion_new_diary/model/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -23,6 +24,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController = CalendarController();
   DateTime selectedDay;
+  StyleModel _styleModel;
 
   @override
   void initState() {
@@ -54,13 +56,13 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
     });
   }
 
-  void _onVisibleDaysChanged(DateTime first, DateTime last,
-      CalendarFormat format) {
+  void _onVisibleDaysChanged(
+      DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onVisibleDaysChanged');
   }
 
-  void _onCalendarCreated(DateTime first, DateTime last,
-      CalendarFormat format) {
+  void _onCalendarCreated(
+      DateTime first, DateTime last, CalendarFormat format) {
     print('CALLBACK: _onCalendarCreated');
   }
 
@@ -68,6 +70,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     Api api = Provider.of<Api>(context, listen: false);
     final styleModel = StyleModel(context);
+    _styleModel = styleModel;
     return FutureBuilder(
         future: api.fetchPost(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -75,99 +78,68 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
             api.inputData(snapshot.data);
             for (int a = 0; a < api.userAllData.length; a++) {
               _events[DateTime.parse(api.userAllData.keys.toList()[a])] =
-              api.userAllData.values.toList()[a];
+                  api.userAllData.values.toList()[a];
               print(_events);
             }
-            return ListView(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        height: 2,
-                        color: Colors.grey,
-                      ),
-                      _buildTableCalendarWithBuilders(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width,
-                        height: 2,
-                        color: Colors.grey,
-                      ),
-                      // _buildButtons(), -> 달력이 어떻게 표시될 지 선택할 버튼
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.4,
-                          child: _buildEventList()),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          } else {
-            return  Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height,
-              child: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Container(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.6,
-                    child: Center(
-                      child: Container(
-                        width: styleModel.getContextSize()['screenWidthLevel3'],
-                        height: styleModel
-                            .getContextSize()['screenWidthLevel8'],
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: <Color>[
-                              styleModel
-                                  .getBackgroundColor()['backgroundColor2'],
-                              styleModel
-                                  .getBackgroundColor()['backgroundColor3'],
-                              styleModel
-                                  .getBackgroundColor()['backgroundColor4'],
-                              styleModel
-                                  .getBackgroundColor()['backgroundColor5'],
-                              styleModel
-                                  .getBackgroundColor()['backgroundColor6'],
-                            ],
-                          ),
+            return Container(
+              color: styleModel.getBackgroundColor()['homeBackgroundColor1'],
+              child: ListView(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: styleModel.getContextSize()['fullScreenWidth'],
+                          height: 2,
+                          color: Colors.grey,
                         ),
-                        child: Center(
-                          child: Text(
-                            "No information :(",
-                            style: styleModel.getTextStyle()['titleTextStyle'],
-                          ),
+                        _buildTableCalendarWithBuilders(),
+                        SizedBox(
+                          height: 10,
                         ),
-                      ),
+
+                        // _buildButtons(), -> 달력이 어떻게 표시될 지 선택할 버튼
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            height: styleModel
+                                .getContextSize()['screenHeightLevel6.5'],
+                            child: _buildEventList()),
+                      ],
                     ),
                   ),
-                ]),
+                ],
+              ),
+            );
+          } else {
+            return Container(
+              height: styleModel.getContextSize()['fullScreenHeight'],
+              child: Center(
+                child: Container(
+                  width: styleModel.getContextSize()['screenWidthLevel3'],
+                  height: styleModel.getContextSize()['screenWidthLevel8'],
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        styleModel.getBackgroundColor()['backgroundColor2'],
+                        styleModel.getBackgroundColor()['backgroundColor3'],
+                        styleModel.getBackgroundColor()['backgroundColor4'],
+                        styleModel.getBackgroundColor()['backgroundColor5'],
+                        styleModel.getBackgroundColor()['backgroundColor6'],
+                      ],
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "No information :(",
+                      style: styleModel.getTextStyle()['titleTextStyle'],
+                    ),
+                  ),
+                ),
               ),
             );
           }
@@ -276,8 +248,8 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
         color: _calendarController.isSelected(date)
             ? hexToColor("#6F825A")
             : _calendarController.isToday(date)
-            ? hexToColor("#A6CBD4") //선택 x
-            : hexToColor("#4F8FA8"), //지난날의 정보
+                ? hexToColor("#A6CBD4") //선택 x
+                : hexToColor("#4F8FA8"), //지난날의 정보
       ),
       width: 16.0,
       height: 16.0,
@@ -299,60 +271,67 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
         itemCount: _selectedEvents.length,
         itemBuilder: (context, index) {
           return Container(
-            height: 200,
-            decoration: BoxDecoration(
-              border: Border.all(width: 0.8),
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2),
-            child: Row(
+            child: Column(
               children: [
-                FlatButton(
-                  child: Container(
-                    child: Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 10,
-                        ), //그림
-                        Container(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.47,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "${_selectedEvents[index]['title']}",
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    color: Colors.black,
-                                    fontFamily: "NanumPenScript"),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "${utf8.decode(_selectedEvents[index]['content'].toString().codeUnits)}",
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                //날짜
+                Row(
+                  children: [
+                    Flexible(
+                      flex: 5,
+                      child:   Container(
+                        width: _styleModel.getContextSize()['fullScreenWidth'],
+                        height: 2,
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    print(_selectedEvents[index].hashCode);
-                    Navigator.pushReplacementNamed(context, "/todayDiary",
-                        arguments: _selectedEvents[index]);
-                  },
+                    Flexible(
+                      flex: 3,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                        child: Text(
+                          DateFormat("yyyy.MM.dd").format(
+                              DateTime.parse(_selectedEvents[index]['date'])),
+                          style:
+                              _styleModel.getTextStyle()["calenderTextStyle1"],
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child:  Container(
+                        width: _styleModel.getContextSize()['fullScreenWidth'],
+                        height: 2,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 50,
+                      child: Image.asset("S${_selectedEvents[index]['image_type']}${"Boy"}.png"),
+                    ),
+                  ],
+                ),
+                //제목
+                Text(
+                  utf8.decode(_selectedEvents[index]['content']
+                      .toString()
+                      .codeUnits),
+                  style: _styleModel.getTextStyle()["calenderTextStyle2"],
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 50,
                 ),
               ],
             ),
           );
         });
   }
+
 // cancelCheckDialog(
 //     context, index, _selectedEvents[index]);
 // void cancelCheckDialog(
