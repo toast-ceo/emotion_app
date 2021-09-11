@@ -188,6 +188,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
             child: Container(
               margin: const EdgeInsets.all(4.0),
               padding: const EdgeInsets.only(top: 5.0, left: 6.0),
+              //선택칸 색상
               color: hexToColor("#D0C3A3"),
               width: 100,
               height: 100,
@@ -272,6 +273,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
         itemBuilder: (context, index) {
           return Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //날짜
                 Row(
@@ -306,25 +308,54 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                Row(
-                  children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      child: Image.asset("S${_selectedEvents[index]['image_type']}${"Boy"}.png"),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     Container(
+                //       height: 150,
+                //       width: 150,
+                //       child: Image.asset("pic/Srain.jpg"),
+                //     ),
+                //     Container(
+                //       height: 200,
+                //       width: 200,
+                //       child: Image.asset("pic/S${_selectedEvents[index]['image_type']}${"Boy"}.jpg"),
+                //     ),
+                //   ],
+                // ),
                 //제목
-                Text(
-                  utf8.decode(_selectedEvents[index]['content']
-                      .toString()
-                      .codeUnits),
-                  style: _styleModel.getTextStyle()["calenderTextStyle2"],
-                  textAlign: TextAlign.center,
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        utf8.decode(_selectedEvents[index]['title']
+                            .toString()
+                            .codeUnits),
+                        style: _styleModel.getTextStyle()["calenderTextStyle2"],
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(width: 10,),
+                      Text(
+                        _selectedEvents[index]['image_type'],
+                        style: _styleModel.getTextStyle()["calenderTextStyle4"],
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    utf8.decode(_selectedEvents[index]['content']
+                        .toString()
+                        .codeUnits),
+                    style: _styleModel.getTextStyle()["calenderTextStyle3"],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 SizedBox(
-                  height: 50,
+                  height:40,
                 ),
               ],
             ),

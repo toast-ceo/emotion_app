@@ -51,18 +51,18 @@ class StyleModel extends ChangeNotifier {
       'bodyTextStyle1': TextStyle(
         fontSize: size.height * 0.032,
         color: Colors.grey.shade600,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w300,
       ),
       'infoTextStyle1': TextStyle(
           fontSize: size.height * 0.032,
           color: Colors.grey.shade600,
           fontWeight: FontWeight.w600,
-          fontFamily: "NanumGothicBold"),
+          fontFamily: "NanumGothic"),
       'infoTextStyle2': TextStyle(
           fontSize: size.height * 0.04,
           color: Colors.grey.shade600,
-          fontWeight: FontWeight.w800,
-          fontFamily: "NanumMyeongjo"),
+          fontWeight: FontWeight.w600,
+          fontFamily: "NanumGothic"),
       'infoTextStyle3': TextStyle(
         fontSize: size.height * 0.028,
         color: Colors.grey.shade600,
@@ -84,8 +84,18 @@ class StyleModel extends ChangeNotifier {
           fontWeight: FontWeight.w500,
           fontFamily: "NanumGothic"),
       'calenderTextStyle2': TextStyle(
+          fontSize: size.height * 0.03,
+          color: Colors.grey.shade800,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'calenderTextStyle3': TextStyle(
           fontSize: size.height * 0.024,
-          color: Colors.grey.shade900,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'calenderTextStyle4': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.grey.shade600,
           fontWeight: FontWeight.w500,
           fontFamily: "NanumGothic"),
     };

@@ -115,7 +115,7 @@ class _InformationScreenState extends State<InformationScreen> {
                               Center(
                                   child: Container(
                                       child: Text(
-                                "행복한 일이 많군요!",
+                                "무슨 색이였을까요?",
                                 style:
                                     styleModel.getTextStyle()["bodyTextStyle1"],
                               ))),
