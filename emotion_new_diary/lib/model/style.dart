@@ -31,7 +31,8 @@ class StyleModel extends ChangeNotifier {
       'backgroundColor4': hexToColor("#FEE893"),
       'backgroundColor5': hexToColor("#FAC8BF"),
       'backgroundColor6': hexToColor("#FEDCC1"),
-      'homeBackgroundColor1': Colors.grey[150],
+      'homeBackgroundColor1': Colors.white,
+      'homeBackgroundColor2': Colors.grey[100],
       'selectColor1': Colors.black12,
       'selectColor2': Colors.black.withOpacity(0.8),
     };
@@ -121,6 +122,7 @@ class StyleModel extends ChangeNotifier {
       'screenHeightLevel8': size.height * 0.2,
       'screenHeightLevel8.5': size.height * 0.15,
       'screenHeightLevel9': size.height * 0.1,
+      'screenHeightLevel9.5': size.height * 0.085,
       'screenHeightLevel10': size.height * 0.07,
       'screenHeightLevel11': size.height * 0.05,
       'screenHeightLevel12': size.height * 0.04,

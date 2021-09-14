@@ -92,7 +92,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                         Container(
                           width: styleModel.getContextSize()['fullScreenWidth'],
                           height: 2,
-                          color: Colors.grey,
+                          color: Colors.grey[200],
                         ),
                         _buildTableCalendarWithBuilders(),
                         SizedBox(
@@ -278,12 +278,13 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                 //날짜
                 Row(
                   children: [
+                    // 위의 바
                     Flexible(
                       flex: 5,
-                      child:   Container(
+                      child: Container(
                         width: _styleModel.getContextSize()['fullScreenWidth'],
                         height: 2,
-                        color: Colors.grey,
+                        color: Colors.grey[200],
                       ),
                     ),
                     Flexible(
@@ -300,31 +301,31 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                     ),
                     Flexible(
                       flex: 1,
-                      child:  Container(
+                      child: Container(
                         width: _styleModel.getContextSize()['fullScreenWidth'],
                         height: 2,
-                        color: Colors.grey,
+                        color: Colors.grey[200],
                       ),
                     ),
                   ],
                 ),
                 // Row(
                 //   children: [
+                //     // Container(
+                //     //   height: 100,
+                //     //   width: 100,
+                //     //   child: Image.asset("pic/Srain.jpg"),
+                //     // ),
                 //     Container(
                 //       height: 150,
                 //       width: 150,
-                //       child: Image.asset("pic/Srain.jpg"),
-                //     ),
-                //     Container(
-                //       height: 200,
-                //       width: 200,
                 //       child: Image.asset("pic/S${_selectedEvents[index]['image_type']}${"Boy"}.jpg"),
                 //     ),
                 //   ],
                 // ),
                 //제목
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -335,107 +336,136 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                         style: _styleModel.getTextStyle()["calenderTextStyle2"],
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(width: 10,),
-                      Text(
-                        _selectedEvents[index]['image_type'],
-                        style: _styleModel.getTextStyle()["calenderTextStyle4"],
-                        textAlign: TextAlign.center,
-                      ),
+                      // SizedBox(
+                      //   width: 10,
+                      // ),
+                      // Text(
+                      //   _selectedEvents[index]['image_type'],
+                      //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
+                      //   textAlign: TextAlign.center,
+                      // ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    utf8.decode(_selectedEvents[index]['content']
-                        .toString()
-                        .codeUnits),
+                    utf8.decode(
+                        _selectedEvents[index]['content'].toString().codeUnits),
                     style: _styleModel.getTextStyle()["calenderTextStyle3"],
                     textAlign: TextAlign.center,
                   ),
                 ),
-                SizedBox(
-                  height:40,
+                // tag
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        "#",
+                        style: _styleModel.getTextStyle()["calenderTextStyle2"],
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        width: _styleModel.getContextSize()["screenWidthLevel2"],
+                        height:
+                        _styleModel.getContextSize()["screenHeightLevel11"],
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 10,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Container(
+                              width: _styleModel
+                                  .getContextSize()["screenHeightLevel11"],
+                              height: _styleModel
+                                  .getContextSize()["screenHeightLevel11"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                SizedBox(
+                  height: 40,
+                ),
+                //FlatButton(child: Container(color: Colors.yellow,width: 100,height: 100,), onPressed: () => cancelCheckDialog(context, index, _selectedEvents[index]))
               ],
             ),
           );
         });
   }
 
-// cancelCheckDialog(
-//     context, index, _selectedEvents[index]);
-// void cancelCheckDialog(
-//     BuildContext context, int removeIndex, var removeData) {
-//   print(context);
-//   print(removeData);
-//
-//   showDialog(
-//       context: context,
-//       //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
-//       barrierDismissible: false,
-//       builder: (BuildContext context) {
-//         Api api = Provider.of<Api>(context, listen: false);
-//
-//         return AlertDialog(
-//           // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
-//           shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(10.0)),
-//           //Dialog Main Title
-//           title: Column(
-//             children: <Widget>[
-//               new Text(
-//                 "삭제",
-//                 style: TextStyle(fontSize: 30, fontFamily: "NanumPenScript"),
-//               ),
-//             ],
-//           ),
-//           //
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: <Widget>[
-//               new Text(
-//                 "일기를 삭제 하시겠습니까?",
-//                 style: TextStyle(fontSize: 24, fontFamily: "NanumPenScript"),
-//               ),
-//             ],
-//           ),
-//           actions: <Widget>[
-//             Row(
-//               children: [
-//                 new FlatButton(
-//                   child: new Text(
-//                     "취소",
-//                     style: TextStyle(
-//                         fontSize: 20,
-//                         fontFamily: "NanumPenScript",
-//                         color: Colors.black),
-//                   ),
-//                   onPressed: () {
-//                     Navigator.pop(context);
-//                   },
-//                 ),
-//                 new FlatButton(
-//                   child: new Text(
-//                     "확인",
-//                     style: TextStyle(
-//                         fontSize: 20,
-//                         fontFamily: "NanumPenScript",
-//                         color: Colors.black),
-//                   ),
-//                   onPressed: () {
-//                     setState(() {
-//                       print(selectedDay.runtimeType);
-//                       api.removeText(removeData);
-//                     });
-//                     Navigator.of(context).pushReplacementNamed('/menu');
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ],
-//         );
-//       });
-// }
+  void cancelCheckDialog(BuildContext context, int removeIndex, var removeData) {
+    print(context);
+    print(removeData);
+
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Api api = Provider.of<Api>(context, listen: false);
+
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              children: <Widget>[
+                new Text(
+                  "삭제",
+                  style: TextStyle(fontSize: 30, fontFamily: "NanumPenScript"),
+                ),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  "일기를 삭제 하시겠습니까?",
+                  style: TextStyle(fontSize: 24, fontFamily: "NanumPenScript"),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              Row(
+                children: [
+                  new FlatButton(
+                    child: new Text(
+                      "취소",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "NanumPenScript",
+                          color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  new FlatButton(
+                    child: new Text(
+                      "확인",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "NanumPenScript",
+                          color: Colors.black),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        print(selectedDay.runtimeType);
+                        //   api.removeText(removeData);
+                      });
+                      Navigator.of(context).pushReplacementNamed('/menu');
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
 }

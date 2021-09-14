@@ -37,25 +37,22 @@ class _InformationScreenState extends State<InformationScreen> {
     _styleModel = styleModel;
     Api api = Provider.of<Api>(context);
     _api = api;
+
     return FutureBuilder(
       future: api.fetchPostInfo(yearText),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        print(snapshot.data);
         if (snapshot.hasData) {
+          // print(_api.infoAllNum);
           //ChartData 리스트에 변수를 넣어주는 부분
           _chartData.clear();
           for (int a = 0; a < 5; a++) {
             _chartData.add(ChartData(
                 snapshot.data[a]["emotion_type"],
-                double.parse(snapshot.data[a]["year_count"].toString()),
+                double.parse(snapshot.data[a]["emotion_count"].toString()),
                 styleModel.getBackgroundColor()[snapshot.data[a]["color"]]));
 
             //총 일기 카운트
-            count = snapshot.data[0]["year_count"] +
-                snapshot.data[1]["year_count"] +
-                snapshot.data[2]["year_count"] +
-                snapshot.data[3]["year_count"] +
-                snapshot.data[4]["year_count"];
+            count = _api.infoAllNum;
           }
           return snapshot.connectionState == ConnectionState.done
               ? Container(
@@ -161,27 +158,27 @@ class _InformationScreenState extends State<InformationScreen> {
                                       height: 20,
                                     ),
                                     containerChart(
-                                        snapshot.data[0]["year_count"],
+                                        snapshot.data[0]["emotion_count"],
                                         count,
                                         snapshot.data[0]["emotion_type"],
                                         snapshot.data[0]["color"]),
                                     containerChart(
-                                        snapshot.data[1]["year_count"],
+                                        snapshot.data[1]["emotion_count"],
                                         count,
                                         snapshot.data[1]["emotion_type"],
                                         snapshot.data[1]["color"]),
                                     containerChart(
-                                        snapshot.data[2]["year_count"],
+                                        snapshot.data[2]["emotion_count"],
                                         count,
                                         snapshot.data[2]["emotion_type"],
                                         snapshot.data[2]["color"]),
                                     containerChart(
-                                        snapshot.data[3]["year_count"],
+                                        snapshot.data[3]["emotion_count"],
                                         count,
                                         snapshot.data[3]["emotion_type"],
                                         snapshot.data[3]["color"]),
                                     containerChart(
-                                        snapshot.data[4]["year_count"],
+                                        snapshot.data[4]["emotion_count"],
                                         count,
                                         snapshot.data[4]["emotion_type"],
                                         snapshot.data[4]["color"]),
