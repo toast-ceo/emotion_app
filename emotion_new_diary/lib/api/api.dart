@@ -29,7 +29,8 @@ class Api with ChangeNotifier {
       final response = await http.get(Uri.parse(infoUri));
       if (response.statusCode == 200) {
         var temp = jsonDecode(response.body);
-        // infoAllNum = temp['meta']['emotion_count'];
+        //print(temp);
+         infoAllNum = temp['meta']['diary_count'];
         // print(temp['meta']['diary_count']);
         // print(infoAllNum);
         return temp['body']['$year'];
@@ -45,5 +46,21 @@ class Api with ChangeNotifier {
       return null;
     }
     // String infoUri = uri + '&year=$year';
+  }
+
+  void addText(Map<String, dynamic> data) async {
+    print(data);
+    String bodyF = jsonEncode(data);
+    print(bodyF);
+    http.Response response = await http.put(
+      "https://5za963.deta.dev/diary/",
+      body: bodyF,
+    );
+    print(response.body);
+    if (response.statusCode == 200) {
+      print("성공");
+    } else {
+      print("실패");
+    }
   }
 }

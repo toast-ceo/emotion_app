@@ -109,10 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
+                      styleModel.getBackgroundColor()['backgroundColor5'],
                       styleModel.getBackgroundColor()['backgroundColor2'],
                       styleModel.getBackgroundColor()['backgroundColor3'],
                       styleModel.getBackgroundColor()['backgroundColor4'],
-                      styleModel.getBackgroundColor()['backgroundColor5'],
                       styleModel.getBackgroundColor()['backgroundColor6'],
                     ],
                   ),

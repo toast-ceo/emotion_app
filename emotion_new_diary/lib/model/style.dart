@@ -26,11 +26,11 @@ class StyleModel extends ChangeNotifier {
   Map<String, dynamic> getBackgroundColor() {
     backgroundColor = {
       'backgroundColor1': hexToColor("#FFFFFF"),
-      'backgroundColor2': hexToColor("#D0E1F5"),
-      'backgroundColor3': hexToColor("#C0E4DA"),
-      'backgroundColor4': hexToColor("#FEE893"),
-      'backgroundColor5': hexToColor("#FAC8BF"),
-      'backgroundColor6': hexToColor("#FEDCC1"),
+      'backgroundColor2': hexToColor("#D0E1F5"), // 파랑
+      'backgroundColor3': hexToColor("#C0E4DA"), // 초록
+      'backgroundColor4': hexToColor("#FEE893"), // 노랑
+      'backgroundColor5': hexToColor("#F7DFFF"), // 보라
+      'backgroundColor6': hexToColor("#FAC8BF"), // 빨강
       'homeBackgroundColor1': Colors.white,
       'homeBackgroundColor2': Colors.grey[100],
       'selectColor1': Colors.black12,
@@ -99,6 +99,27 @@ class StyleModel extends ChangeNotifier {
           color: Colors.grey.shade600,
           fontWeight: FontWeight.w500,
           fontFamily: "NanumGothic"),
+      'writeTextStyle1': TextStyle(
+          fontSize: size.height * 0.023,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'writeTextStyle2': TextStyle(
+          fontSize: size.height * 0.016,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'writeTextStyle3': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'writeTextStyle4': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+
     };
 
     return textStyle;
@@ -120,6 +141,7 @@ class StyleModel extends ChangeNotifier {
       'screenHeightLevel7': size.height * 0.3,
       'screenHeightLevel7.5': size.height * 0.25,
       'screenHeightLevel8': size.height * 0.2,
+      'screenHeightLevel8.3': size.height * 0.18,
       'screenHeightLevel8.5': size.height * 0.15,
       'screenHeightLevel9': size.height * 0.1,
       'screenHeightLevel9.5': size.height * 0.085,

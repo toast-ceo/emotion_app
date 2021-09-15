@@ -125,10 +125,10 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: <Color>[
+                        styleModel.getBackgroundColor()['backgroundColor5'],
                         styleModel.getBackgroundColor()['backgroundColor2'],
                         styleModel.getBackgroundColor()['backgroundColor3'],
                         styleModel.getBackgroundColor()['backgroundColor4'],
-                        styleModel.getBackgroundColor()['backgroundColor5'],
                         styleModel.getBackgroundColor()['backgroundColor6'],
                       ],
                     ),
@@ -309,20 +309,6 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                     ),
                   ],
                 ),
-                // Row(
-                //   children: [
-                //     // Container(
-                //     //   height: 100,
-                //     //   width: 100,
-                //     //   child: Image.asset("pic/Srain.jpg"),
-                //     // ),
-                //     Container(
-                //       height: 150,
-                //       width: 150,
-                //       child: Image.asset("pic/S${_selectedEvents[index]['image_type']}${"Boy"}.jpg"),
-                //     ),
-                //   ],
-                // ),
                 //제목
                 Padding(
                   padding: const EdgeInsets.all(8.0),
