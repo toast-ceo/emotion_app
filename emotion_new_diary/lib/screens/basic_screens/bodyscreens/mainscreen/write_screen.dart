@@ -1,6 +1,8 @@
+import 'package:emotion_new_diary/api/api.dart';
 import 'package:emotion_new_diary/model/style.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class WriteScreen extends StatefulWidget {
   @override
@@ -10,38 +12,52 @@ class WriteScreen extends StatefulWidget {
 class _WriteScreenState extends State<WriteScreen> {
   StyleModel _styleModel;
   DateTime todayNow = DateTime.now();
+
   //일기 컨트롤러
   final TextEditingController _contentController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _contentFocus = FocusNode();
 
+
   List<Map<String, dynamic>> emotion = [
-    {"emotion_0": false},
-    {"emotion_1": false},
-    {"emotion_2": false},
-    {"emotion_3": false},
-    {"emotion_4": false},
+    {"emotion_0": false, "type": "angry", "korea_name": "화남"},
+    {"emotion_1": false, "type": "happy", "korea_name": "신남"},
+    {"emotion_2": false, "type": "sensitiveness", "korea_name": "예민"},
+    {"emotion_3": false, "type": "blue", "korea_name": "우울"},
+    {"emotion_4": false, "type": "timid", "korea_name": "소심"},
   ];
   List<Map<String, dynamic>> weather = [
-    {"weather_0": false},
-    {"weather_1": false},
-    {"weather_2": false},
-    {"weather_3": false},
+    {"weather_0": false, "type": "sun", "korea_name": "해"},
+    {"weather_1": false, "type": "cloud", "korea_name": "구름"},
+    {"weather_2": false, "type": "rain", "korea_name": "비"},
+    {"weather_3": false, "type": "snow", "korea_name": "눈"},
   ];
   List<Map<String, dynamic>> category = [
-    {"category_0": false},
-    {"category_1": false},
-    {"category_2": false},
-    {"category_3": false},
-    {"category_4": false},
+    {"category_0": false, "type": "study", "korea_name": "공부"},
+    {"category_1": false, "type": "exercise", "korea_name": "운동"},
+    {"category_2": false, "type": "game", "korea_name": "게임"},
+    {"category_3": false, "type": "trip", "korea_name": "여행"},
+    {"category_4": false, "type": "Chatter", "korea_name": "수다"},
   ];
+
+  Map<String, dynamic> data = {
+    "username": "",
+    "date": "",
+    "title": "",
+    "content": "",
+    "image_type": "", //
+    "category_json": {
+      "weather": "", // 한글
+      "activity": [], // 배열, 한글
+    }
+  };
 
   @override
   Widget build(BuildContext context) {
     final styleModel = StyleModel(context);
     _styleModel = styleModel;
-
+    Api api = Provider.of<Api>(context);
     String todayData = DateFormat('yyyy-MM-dd').format(todayNow);
 
     return Container(
@@ -113,8 +129,8 @@ class _WriteScreenState extends State<WriteScreen> {
                                 child: Center(
                                   child: Container(
                                     height: 0.5,
-                               width:
-                                      _styleModel.getContextSize()["screenWidthLevel1"],
+                                    width: _styleModel
+                                        .getContextSize()["screenWidthLevel1"],
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -150,33 +166,55 @@ class _WriteScreenState extends State<WriteScreen> {
                         ),
                       ),
                       InkWell(
-                        child: Padding(padding: EdgeInsets.all(10),
-                          child:  Container(
-                              width: _styleModel.getContextSize()["fullScreenWidth"],
-                              height: _styleModel.getContextSize()["screenHeightLevel10"],
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(14),
+                        child: Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Container(
+                            width:
+                                _styleModel.getContextSize()["fullScreenWidth"],
+                            height: _styleModel
+                                .getContextSize()["screenHeightLevel10"],
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "작성 완료",
+                                style: _styleModel
+                                    .getTextStyle()['writeTextStyle4'],
                               ),
-                           child: Center(
-                            child: Text("작성 완료", style: _styleModel.getTextStyle()['writeTextStyle4'],),
-                          ),),
+                            ),
+                          ),
                         ),
-                        onTap: (){
-                          print(todayData);
-                          Map<String, dynamic> data = {
-                            "username": "KIM",
-                            "date": todayData,
-                            "title":  _titleController.text,
-                            "content":  _contentController.text,
-                            "image_type": "happy",
-                            "category_json": {
-                              "weather": "string",
-                              "activity": [
-                                "string"
-                              ]
+                        onTap: () {
+                          //유저 이름 넣음
+                          data['username'] = api.userName;
+                          //감정 넣음
+                          for (int a = 0; a < 5; a++) {
+                            if (emotion[a]['emotion_$a'] == true) {
+                              data["image_type"] = emotion[a]['type'];
                             }
-                          };
+                            //카테고리
+                            else if (category[a]['category_$a'] == true) {
+                              if (!data["category_json"]["activity"]
+                                  .contains(category[a]['korea_name'])) {
+                                data["category_json"]["activity"]
+                                    .add(category[a]['korea_name']);
+                              }
+                            }
+                          }
+                          for (int a = 0; a < 4; a++) {
+                            //날씨 넣음
+                            if (weather[a]['weather_$a'] == true) {
+                              data["category_json"]["weather"] =
+                                  weather[a]['korea_name'];
+                            }
+                          }
+                          //내용 넣음
+                          data["title"] = _titleController.text;
+                          data["content"] = _contentController.text;
+                          data["date"] = todayData;
+                           api.addText(data);
                         },
                       ),
                     ],

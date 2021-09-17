@@ -30,13 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 네비게이션 스크린
   final List<Widget> _bodyScreens = [
-    InformationScreen(),
     CalendarRead(),
-    WriteScreen(),
     ReadScreen(),
+    WriteScreen(),
+    InformationScreen(),
     SettingScreen(),
   ];
-
+  // styleModel.getBackgroundColor()['backgroundColor5'],
+  // styleModel.getBackgroundColor()['backgroundColor2'],
+  // styleModel.getBackgroundColor()['backgroundColor3'],
+  // styleModel.getBackgroundColor()['backgroundColor4'],
+  // styleModel.getBackgroundColor()['backgroundColor6'],
   @override
   Widget build(BuildContext context) {
     final styleModel = new StyleModel(context);
@@ -69,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: new Icon(
-                        Icons.home,
+                        Icons.home_filled,
                         size: styleModel.getContextSize()['bigIconSize'],
                       ),
                     ),
@@ -99,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Icon(
-                        Icons.event_note,
+                        Icons.bar_chart,
                         size: styleModel.getContextSize()['bigIconSize'],
                       ),
                     ),

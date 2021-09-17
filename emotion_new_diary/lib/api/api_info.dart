@@ -1,5 +1,7 @@
 class ApiInfo {
-  static final String uri = 'https://5za963.deta.dev/diary/?username=KIM';
+  static final String allUri = "https://5za963.deta.dev/diary/";
+  static final String userUri = 'https://5za963.deta.dev/diary/?username=KIM';
+  static final String infoUri =  "https://5za963.deta.dev/diary/chart?username=KIM&year=";
 }
 
 
