@@ -12,10 +12,12 @@ class Api with ChangeNotifier {
   String userName = "KIM";
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
+
   static const Map<String, String> header = {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
+
   // 데이터 넣어주는 함수
   void inputData(var temp) {
     userAllData = temp;
