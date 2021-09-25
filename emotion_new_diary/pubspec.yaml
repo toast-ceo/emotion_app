@@ -12,16 +12,22 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #https://pub.dev/packages/provider
   provider: ^4.1.2
 
+  #https://pub.dev/packages/intl
   intl: ^0.17.0
 
+  #https://pub.dev/packages/table_calendar
   table_calendar: ^2.3.3
 
+  #https://pub.dev/packages/cupertino_icons
   cupertino_icons: ^1.0.2
 
+  #https://pub.dev/packages/httphttps://pub.dev/packages/http
   http: ^0.12.2
 
+  #https://pub.dev/packages/syncfusion_flutter_charts
   syncfusion_flutter_charts: ^19.2.56
 
 

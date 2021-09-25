@@ -90,7 +90,7 @@ class _InformationScreenState extends State<InformationScreen> {
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 0, 10, 0),
                                   child: Text(
-                                    "삭님의 일기분석",
+                                    "${api.userName} 님의 일기분석",
                                     style: styleModel
                                         .getTextStyle()["infoTextStyle2"],
                                   ),
