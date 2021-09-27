@@ -12,6 +12,17 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Center(
+        child: InkWell(
+          child: Container(
+            width: 100,
+            height: 100,
+            color: Colors.yellow,
+          ),
+          onTap: () => Navigator.pushReplacementNamed(context, '/membership'),
+        ),
+      ),
+    );
   }
 }

@@ -1,5 +1,7 @@
+import 'package:emotion_new_diary/api/api.dart';
 import 'package:emotion_new_diary/model/style.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     StyleModel styleModel = StyleModel(context);
+    Api api = Provider.of<Api>(context, listen: false);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
@@ -22,11 +25,21 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
+              child: Text(
+                "로그인",
+                style: styleModel.getTextStyle()['MembershipTextStyle1'],
+              ),
+            ),
+            SizedBox(
+              height: styleModel.getContextSize()['screenHeightLevel9'],
+            ),
+            Container(
               width: styleModel.getContextSize()['screenWidthLevel2'],
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: TextFormField(
                   controller: _idController,
+                  style: styleModel.getTextStyle()['LoginTextStyle2'],
                   decoration: InputDecoration(
                     labelText: "아이디 입력",
                     labelStyle: TextStyle(
@@ -50,10 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      if (value.isEmpty) {
-                        action = false;
-                      } else {
+                      if (value.length > 1) {
                         action = true;
+                      } else {
+                        action = false;
                       }
                     });
                   },
@@ -65,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: TextFormField(
+                  style: styleModel.getTextStyle()['LoginTextStyle2'],
+                  obscureText: true,
                   controller: _passwordController,
                   decoration: InputDecoration(
                     labelText: "비밀번호 입력",
@@ -89,10 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      if (value.isEmpty) {
-                        action1 = false;
-                      } else {
+                      if (value.length > 1) {
                         action1 = true;
+                      } else {
+                        action1 = false;
                       }
                     });
                   },
@@ -117,14 +132,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                 ),
-                child: action1 &&action
-                    ? FlatButton(
-                        child: Text(
-                          'Login',
-                          style: styleModel.getTextStyle()['titleTextStyle'],
+                child: action1 && action
+                    ? InkWell(
+                        child: Center(
+                          child: Text(
+                            'Login',
+                            style: styleModel.getTextStyle()['titleTextStyle'],
+                          ),
                         ),
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(context, '/home');
+                        onTap: () {
+                          Map<String, dynamic> data = {
+                            "username": _idController.text,
+                            "password": _passwordController.text,
+                          };
+                          print(data);
+                          // api.loginApi(data);
+                           Navigator.pushReplacementNamed(context, '/home');
                         },
                       )
                     : Container(
@@ -137,7 +160,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
               ),
             ),
+            InkWell(
+              child: Text(
+                "회원가입",
+                style: styleModel.getTextStyle()['LoginTextStyle1'],
+              ),
+              onTap: () {
 
+                Navigator.pushReplacementNamed(context, '/membership');
+              },
+            ),
           ],
         ),
       ),

@@ -2,6 +2,9 @@ class ApiInfo {
   static final String allUri = "https://5za963.deta.dev/diary/";
   static final String userUri = 'https://5za963.deta.dev/diary/?username=KIM';
   static final String infoUri =  "https://5za963.deta.dev/diary/chart?username=KIM&year=";
+  static final String loginUri =  "https://5za963.deta.dev/login";
+  static final String membershipUri =  "https://5za963.deta.dev/user/";
+
 }
 
 

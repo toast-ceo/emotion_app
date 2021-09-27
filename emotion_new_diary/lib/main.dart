@@ -1,6 +1,7 @@
 import 'package:emotion_new_diary/api/api.dart';
 import 'package:emotion_new_diary/login_screen.dart';
 import 'package:emotion_new_diary/screens/basic_screens/initial/home_screen.dart';
+import 'package:emotion_new_diary/screens/basic_screens/membership/membership.dart';
 import 'package:emotion_new_diary/screens/basic_screens/start_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ void main() {
           '/start' : (context) => StartScreen(),
           '/login' : (context) => LoginScreen(),
           '/home' : (context) => HomeScreen(),
+          '/membership' : (context) => Membership(),
         },
       ),
     ),

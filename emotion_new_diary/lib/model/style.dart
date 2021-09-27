@@ -49,6 +49,11 @@ class StyleModel extends ChangeNotifier {
         color: Colors.white,
         fontWeight: FontWeight.w600,
       ),
+      'titleTextStyle1': TextStyle(
+        fontSize: size.height * 0.03,
+        color: Colors.white,
+        fontWeight: FontWeight.w200,
+      ),
       'bodyTextStyle1': TextStyle(
         fontSize: size.height * 0.032,
         color: Colors.grey.shade600,
@@ -119,7 +124,41 @@ class StyleModel extends ChangeNotifier {
           color: Colors.black54,
           fontWeight: FontWeight.w500,
           fontFamily: "NanumGothic"),
-
+      'LoginTextStyle1': TextStyle(
+          fontSize: size.height * 0.016,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w300,
+          fontFamily: "NanumGothic"),
+      'LoginTextStyle2': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'MembershipTextStyle1': TextStyle(
+          fontSize: size.height * 0.034,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'MembershipTextStyle2': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.grey.shade600,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'AlertTextStyle1': TextStyle(
+          fontSize: size.height * 0.024,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'AlertTextStyle2': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'AlertTextStyle3': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
     };
 
     return textStyle;

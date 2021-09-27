@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.8.0 <3.0.0'
+  sdk: '>=2.7.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -30,6 +30,7 @@ dependencies:
   #https://pub.dev/packages/syncfusion_flutter_charts
   syncfusion_flutter_charts: ^19.2.56
 
+  fluttertoast: ^8.0.2
 
 dev_dependencies:
   flutter_test:

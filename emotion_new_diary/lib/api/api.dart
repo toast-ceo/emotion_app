@@ -9,6 +9,9 @@ import 'package:http/http.dart' as http;
 class Api with ChangeNotifier {
   String uri = ApiInfo.userUri;
   String allUri = ApiInfo.allUri;
+  String loginUri = ApiInfo.loginUri;
+  String membershipUri = ApiInfo.membershipUri;
+  int membershipTemp;
   String userName = "KIM";
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
@@ -17,6 +20,42 @@ class Api with ChangeNotifier {
     'Content-type': 'application/json',
     'Accept': 'application/json',
   };
+
+  //로그인
+  void loginApi(Map<String, dynamic> data) async {
+    Uri loginUrl = Uri.parse(loginUri);
+    print(loginUrl);
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(loginUrl);
+    request.headers.set('Content-type', 'application/json');
+    request.add(utf8.encode(json.encode(data)));
+    HttpClientResponse response = await request.close();
+    print(response.statusCode);
+    print(response.reasonPhrase);
+    if (response.statusCode == 200) {
+      print("성공");
+    } else {
+      print("실패");
+    }
+  }
+
+ void membershipApi(Map<String, dynamic> data) async {
+    print(data);
+    Uri membershipUrl = Uri.parse(membershipUri);
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(membershipUrl);
+    request.headers.set('Content-type', 'application/json');
+    request.add(utf8.encode(json.encode(data)));
+    HttpClientResponse response = await request.close();
+    membershipTemp = response.statusCode;
+    if (response.statusCode == 200) {
+      print("성공");
+
+    } else {
+      print("실패");
+
+    }
+  }
 
   // 데이터 넣어주는 함수
   void inputData(var temp) {
@@ -31,7 +70,7 @@ class Api with ChangeNotifier {
   }
 
   Future fetchPostInfo(String year) async {
-    String infoUri =  ApiInfo.infoUri+year;
+    String infoUri = ApiInfo.infoUri + year;
     try {
       // await Future.delayed(Duration(seconds:3));
       final response = await http.get(Uri.parse(infoUri));
@@ -57,7 +96,6 @@ class Api with ChangeNotifier {
   }
 
   void addText(Map<String, dynamic> data) async {
-
     Uri addUrl = Uri.parse(allUri);
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(addUrl);
