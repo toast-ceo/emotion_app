@@ -12,7 +12,7 @@ class Api with ChangeNotifier {
   String loginUri = ApiInfo.loginUri;
   String membershipUri = ApiInfo.membershipUri;
   int membershipTemp;
-  String userName = "KIM";
+  String userName = "";
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
 
@@ -30,16 +30,17 @@ class Api with ChangeNotifier {
     request.headers.set('Content-type', 'application/json');
     request.add(utf8.encode(json.encode(data)));
     HttpClientResponse response = await request.close();
-    print(response.statusCode);
-    print(response.reasonPhrase);
+
     if (response.statusCode == 200) {
       print("성공");
     } else {
       print("실패");
+      print(response.statusCode);
+      print(response.reasonPhrase);
     }
   }
 
- void membershipApi(Map<String, dynamic> data) async {
+  void membershipApi(Map<String, dynamic> data) async {
     print(data);
     Uri membershipUrl = Uri.parse(membershipUri);
     HttpClient httpClient = new HttpClient();
@@ -50,10 +51,8 @@ class Api with ChangeNotifier {
     membershipTemp = response.statusCode;
     if (response.statusCode == 200) {
       print("성공");
-
     } else {
       print("실패");
-
     }
   }
 
@@ -95,6 +94,8 @@ class Api with ChangeNotifier {
     // String infoUri = uri + '&year=$year';
   }
 
+
+  //일기 작성
   void addText(Map<String, dynamic> data) async {
     Uri addUrl = Uri.parse(allUri);
     HttpClient httpClient = new HttpClient();
@@ -110,6 +111,7 @@ class Api with ChangeNotifier {
     }
   }
 
+  //일기 삭제
   void removeText(Map removeData) async {
     Uri removeUri = Uri.parse(allUri);
     HttpClient httpClient = new HttpClient();

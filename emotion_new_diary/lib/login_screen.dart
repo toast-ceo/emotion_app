@@ -146,8 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             "password": _passwordController.text,
                           };
                           print(data);
-                          // api.loginApi(data);
-                           Navigator.pushReplacementNamed(context, '/home');
+                          api.loginApi(data);
+                          // Navigator.pushReplacementNamed(context, '/home');
                         },
                       )
                     : Container(
@@ -166,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: styleModel.getTextStyle()['LoginTextStyle1'],
               ),
               onTap: () {
-
                 Navigator.pushReplacementNamed(context, '/membership');
               },
             ),
