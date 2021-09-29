@@ -142,12 +142,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onTap: () {
                           Map<String, dynamic> data = {
+                            "grant_type": "",
                             "username": _idController.text,
                             "password": _passwordController.text,
-                          };
-                          print(data);
+                            "scope" : "",
+                            "client_id":"",
+                            "client_secret":""};
                           api.loginApi(data);
-                          // Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.pushReplacementNamed(context, '/home');
                         },
                       )
                     : Container(

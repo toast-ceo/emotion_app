@@ -12,24 +12,43 @@ class Api with ChangeNotifier {
   String loginUri = ApiInfo.loginUri;
   String membershipUri = ApiInfo.membershipUri;
   int membershipTemp;
-  String userName = "";
+  String userName = "YONGKI";
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
+  String key = '';
+  String keyType = '';
 
-  static const Map<String, String> header = {
-    'Content-type': 'application/json',
-    'Accept': 'application/json',
-  };
+//   static const Map<String, String> header = {
+//     'Content-type': 'application/json',
+//     'Accept': 'application/json',
+//     'Authorization' : keyType + " " + key,
+// };
+//   static const Map<String, String> header2 = {
+//     'Content-type': '"application/x-www-form-urlencoded"',
+//     'Accept': 'application/json',
+//   };
 
   //로그인
   void loginApi(Map<String, dynamic> data) async {
+    HttpClientResponse response;
     Uri loginUrl = Uri.parse(loginUri);
-    print(loginUrl);
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(loginUrl);
-    request.headers.set('Content-type', 'application/json');
-    request.add(utf8.encode(json.encode(data)));
-    HttpClientResponse response = await request.close();
+    request.headers.set(
+      HttpHeaders.acceptHeader,
+      'application/json',
+    );
+    request.headers.set(
+        HttpHeaders.contentTypeHeader, "application/x-www-form-urlencoded");
+    request.add(utf8.encode(json.encode(
+        "grant_type=&username=${data['username']}&password=${data['password']}&scope=&client_id=&client_secret=")));
+    response = await request.close();
+    Map temp;
+    response.listen((event) {
+      temp = json.decode(String.fromCharCodes(event));
+      key = temp['access_token'];
+      keyType = temp['token_type'];
+    });
 
     if (response.statusCode == 200) {
       print("성공");
@@ -63,7 +82,12 @@ class Api with ChangeNotifier {
 
   // 전체 데이터
   Future fetchPost() async {
-    final response = await http.get(Uri.parse(uri));
+    final response = await http.get(Uri.parse(uri),
+        headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': keyType + " " + key,
+        });
     var temp = jsonDecode(response.body);
     return temp['body'];
   }
@@ -72,7 +96,12 @@ class Api with ChangeNotifier {
     String infoUri = ApiInfo.infoUri + year;
     try {
       // await Future.delayed(Duration(seconds:3));
-      final response = await http.get(Uri.parse(infoUri));
+      final response = await http.get(Uri.parse(infoUri), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': keyType + " " + key,
+      });
+      print(keyType + " " + key);
       if (response.statusCode == 200) {
         var temp = jsonDecode(response.body);
         //print(temp);
@@ -94,13 +123,14 @@ class Api with ChangeNotifier {
     // String infoUri = uri + '&year=$year';
   }
 
-
   //일기 작성
   void addText(Map<String, dynamic> data) async {
+    print(data);
     Uri addUrl = Uri.parse(allUri);
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(addUrl);
     request.headers.set('Content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, keyType + " " + key);
     request.add(utf8.encode(json.encode(data)));
     HttpClientResponse response = await request.close();
 
@@ -117,6 +147,7 @@ class Api with ChangeNotifier {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.deleteUrl(removeUri);
     request.headers.set('Content-type', 'application/json');
+    request.headers.set(HttpHeaders.authorizationHeader, keyType + " " + key);
     request.add(
         utf8.encode(json.encode({"username": "KIM", "date": "2021-09-17"})));
     HttpClientResponse response = await request.close();
