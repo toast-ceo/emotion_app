@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Api with ChangeNotifier {
-  String uri = ApiInfo.userUri;
+  String userName = "";
+  String uri = ApiInfo.userUri ;
   String allUri = ApiInfo.allUri;
   String loginUri = ApiInfo.loginUri;
   String membershipUri = ApiInfo.membershipUri;
   int membershipTemp;
-  String userName = "YONGKI";
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
   String key = '';
@@ -48,8 +48,8 @@ class Api with ChangeNotifier {
       temp = json.decode(String.fromCharCodes(event));
       key = temp['access_token'];
       keyType = temp['token_type'];
+      userName = temp['name'];
     });
-
     if (response.statusCode == 200) {
       print("성공");
     } else {
@@ -82,18 +82,18 @@ class Api with ChangeNotifier {
 
   // 전체 데이터
   Future fetchPost() async {
-    final response = await http.get(Uri.parse(uri),
-        headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': keyType + " " + key,
-        });
+    final response = await http.get(Uri.parse(uri + userName), headers: {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': keyType + " " + key,
+    });
     var temp = jsonDecode(response.body);
+    print(temp);
     return temp['body'];
   }
 
   Future fetchPostInfo(String year) async {
-    String infoUri = ApiInfo.infoUri + year;
+    String infoUri = ApiInfo.infoUri + userName + "&year=" + year;
     try {
       // await Future.delayed(Duration(seconds:3));
       final response = await http.get(Uri.parse(infoUri), headers: {
@@ -108,6 +108,7 @@ class Api with ChangeNotifier {
         infoAllNum = temp['meta']['diary_count'];
         // print(temp['meta']['diary_count']);
         // print(infoAllNum);
+        print(temp);
         return temp['body']['$year'];
       } else if (response.statusCode == 404) {
         return null;

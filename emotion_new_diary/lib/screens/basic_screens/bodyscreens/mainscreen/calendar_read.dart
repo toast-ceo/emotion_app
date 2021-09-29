@@ -38,6 +38,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
     );
     _animationController.forward();
+   
   }
 
   @override
