@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 
 class Api with ChangeNotifier {
   String userName = "";
-  String uri = ApiInfo.userUri ;
+  String uri = ApiInfo.userUri;
+
   String allUri = ApiInfo.allUri;
   String loginUri = ApiInfo.loginUri;
   String membershipUri = ApiInfo.membershipUri;
@@ -88,7 +89,6 @@ class Api with ChangeNotifier {
       'Authorization': keyType + " " + key,
     });
     var temp = jsonDecode(response.body);
-    print(temp);
     return temp['body'];
   }
 
@@ -144,18 +144,23 @@ class Api with ChangeNotifier {
 
   //일기 삭제
   void removeText(Map removeData) async {
+    print(removeData);
     Uri removeUri = Uri.parse(allUri);
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.deleteUrl(removeUri);
     request.headers.set('Content-type', 'application/json');
     request.headers.set(HttpHeaders.authorizationHeader, keyType + " " + key);
-    request.add(
-        utf8.encode(json.encode({"username": "KIM", "date": "2021-09-17"})));
+    request.add(utf8.encode(json.encode({
+      "username": utf8.decode(removeData['username'].toString().codeUnits),
+      "date": removeData['date'],
+      "title": utf8.decode(removeData['title'].toString().codeUnits),
+    })));
     HttpClientResponse response = await request.close();
 
     if (response.statusCode == 204) {
       print("성공");
     } else {
+      print(removeData);
       return Future.error("error: status code ${response.statusCode}");
     }
   }

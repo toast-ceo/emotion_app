@@ -316,17 +316,20 @@ class _InformationScreenState extends State<InformationScreen> {
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
-            Container(
-              width: MediaQuery.of(context).size.width * 0.18,
-              child: Center(
-                  child: Text(
-                name,
-                style: _styleModel.getTextStyle()["infoTextStyle5"],
-              )),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8,0,8,4),
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.18,
+                child: Center(
+                    child: Text(
+                  name,
+                  style: _styleModel.getTextStyle()["infoTextStyle5"],
+                )),
+              ),
             ),
             Container(
               width:
-                  MediaQuery.of(context).size.width * 0.64 * (count / allCount),
+                  MediaQuery.of(context).size.width * 0.6 * (count / allCount),
               decoration: BoxDecoration(
                 color: _styleModel.getBackgroundColor()[color],
                 borderRadius: BorderRadius.only(

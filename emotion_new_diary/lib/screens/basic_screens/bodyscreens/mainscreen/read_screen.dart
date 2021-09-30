@@ -14,11 +14,13 @@ class ReadScreen extends StatefulWidget {
 
 class _ReadScreenState extends State<ReadScreen> {
   Map<DateTime, List> _events = {};
+  StyleModel _styleModel;
 
   @override
   Widget build(BuildContext context) {
     Api api = Provider.of<Api>(context, listen: false);
     final styleModel = StyleModel(context);
+    _styleModel = styleModel;
     List userListData = [];
 
     return FutureBuilder(
@@ -81,24 +83,46 @@ class _ReadScreenState extends State<ReadScreen> {
                             //제목
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              child: Stack(
                                 children: [
-                                  Text(
-                                    utf8.decode(userListData[index]['title']
-                                        .toString()
-                                        .codeUnits),
-                                    style: styleModel.getTextStyle()["calenderTextStyle2"],
-                                    textAlign: TextAlign.center,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        utf8.decode(userListData[index]['title']
+                                            .toString()
+                                            .codeUnits),
+                                        style: styleModel.getTextStyle()["calenderTextStyle2"],
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      // SizedBox(
+                                      //   width: 10,
+                                      // ),
+                                      // Text(
+                                      //   _selectedEvents[index]['image_type'],
+                                      //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
+                                      //   textAlign: TextAlign.center,
+                                      // ),
+                                    ],
                                   ),
-                                  // SizedBox(
-                                  //   width: 10,
-                                  // ),
-                                  // Text(
-                                  //   _selectedEvents[index]['image_type'],
-                                  //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
-                                  //   textAlign: TextAlign.center,
-                                  // ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          IconButton(
+                                              icon: Icon(Icons.cancel_outlined),
+                                              color: Colors.grey,
+                                              iconSize: _styleModel
+                                                  .getContextSize()['middleIconSize'],
+                                              onPressed: () => cancelCheckDialog(
+                                                  context, index, userListData[index]))
+                                        ],
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
@@ -181,6 +205,80 @@ class _ReadScreenState extends State<ReadScreen> {
               ),
             );
           }
+        });
+  }
+  void cancelCheckDialog(
+      BuildContext context, int removeIndex, var removeData) {
+
+
+    showDialog(
+        context: context,
+        //barrierDismissible - Dialog를 제외한 다른 화면 터치 x
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          Api api = Provider.of<Api>(context, listen: false);
+
+          return AlertDialog(
+            // RoundedRectangleBorder - Dialog 화면 모서리 둥글게 조절
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            //Dialog Main Title
+            title: Column(
+              children: <Widget>[
+                new Text(
+                  "삭제",
+                  style: _styleModel.getTextStyle()['AlertTextStyle1'],
+                ),
+              ],
+            ),
+            //
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                new Text(
+                  "일기를 삭제 하시겠습니까?",
+                  style: _styleModel.getTextStyle()['AlertTextStyle3'],
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new InkWell(
+                      child: new Text(
+                        "취소",
+                        style: _styleModel.getTextStyle()['AlertTextStyle2'],
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new InkWell(
+                      child: new Text(
+                        "확인",
+                        style: _styleModel.getTextStyle()['AlertTextStyle2'],
+                      ),
+                      onTap: () {
+                        setState(() {
+                          api.removeText(removeData);
+                        });
+                        Navigator.pushReplacementNamed(context, '/home');
+
+                        // Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
         });
   }
 }

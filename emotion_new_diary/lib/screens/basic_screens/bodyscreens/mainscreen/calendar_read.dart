@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_statements
+
 import 'dart:convert';
 
 import 'package:emotion_new_diary/api/api.dart';
@@ -25,6 +27,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
   CalendarController _calendarController = CalendarController();
   DateTime selectedDay;
   StyleModel _styleModel;
+  FutureBuilder _futureBuilder;
 
   @override
   void initState() {
@@ -38,7 +41,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 400),
     );
     _animationController.forward();
-   
+
   }
 
   @override
@@ -72,14 +75,15 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
     Api api = Provider.of<Api>(context, listen: false);
     final styleModel = StyleModel(context);
     _styleModel = styleModel;
-    return FutureBuilder(
+
+    final builder = FutureBuilder(
         future: api.fetchPost(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             api.inputData(snapshot.data);
             for (int a = 0; a < api.userAllData.length; a++) {
               _events[DateTime.parse(api.userAllData.keys.toList()[a])] =
-                  api.userAllData.values.toList()[a];
+              api.userAllData.values.toList()[a];
               print(_events);
             }
             return Container(
@@ -91,7 +95,8 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                     child: Column(
                       children: <Widget>[
                         Container(
-                          width: styleModel.getContextSize()['fullScreenWidth'],
+                          width: _styleModel
+                              .getContextSize()['fullScreenWidth'],
                           height: 2,
                           color: Colors.grey[200],
                         ),
@@ -145,6 +150,8 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
             );
           }
         });
+    _futureBuilder = builder;
+    return _futureBuilder;
   }
 
   Widget _buildTableCalendarWithBuilders() {
@@ -313,24 +320,42 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                 //제목
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                  child: Stack(
                     children: [
-                      Text(
-                        utf8.decode(_selectedEvents[index]['title']
-                            .toString()
-                            .codeUnits),
-                        style: _styleModel.getTextStyle()["calenderTextStyle2"],
-                        textAlign: TextAlign.center,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            utf8.decode(_selectedEvents[index]['title']
+                                .toString()
+                                .codeUnits),
+                            style: _styleModel
+                                .getTextStyle()["calenderTextStyle2"],
+                            textAlign: TextAlign.center,
+                          ),
+                          // SizedBox(
+                          //   width: 10,
+                          // ),
+                          // Text(
+                          //   _selectedEvents[index]['image_type'],
+                          //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
+                          //   textAlign: TextAlign.center,
+                          // ),
+                        ],
                       ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      // Text(
-                      //   _selectedEvents[index]['image_type'],
-                      //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
-                      //   textAlign: TextAlign.center,
-                      // ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          IconButton(
+                              icon: Icon(Icons.cancel_outlined),
+                              color: Colors.grey,
+                              iconSize: _styleModel
+                                  .getContextSize()['middleIconSize'],
+                              onPressed: () => cancelCheckDialog(
+                                  context, index, _selectedEvents[index]))
+                        ],
+                      )
                     ],
                   ),
                 ),
@@ -354,9 +379,10 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                         textAlign: TextAlign.center,
                       ),
                       Container(
-                        width: _styleModel.getContextSize()["screenWidthLevel2"],
+                        width:
+                            _styleModel.getContextSize()["screenWidthLevel2"],
                         height:
-                        _styleModel.getContextSize()["screenHeightLevel11"],
+                            _styleModel.getContextSize()["screenHeightLevel11"],
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: 10,
@@ -376,16 +402,15 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                 SizedBox(
                   height: 40,
                 ),
-                //FlatButton(child: Container(color: Colors.yellow,width: 100,height: 100,), onPressed: () => cancelCheckDialog(context, index, _selectedEvents[index]))
               ],
             ),
           );
         });
   }
 
-  void cancelCheckDialog(BuildContext context, int removeIndex, var removeData) {
-    print(context);
-    print(removeData);
+  void cancelCheckDialog(
+      BuildContext context, int removeIndex, var removeData) {
+
 
     showDialog(
         context: context,
@@ -403,7 +428,7 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
               children: <Widget>[
                 new Text(
                   "삭제",
-                  style: TextStyle(fontSize: 30, fontFamily: "NanumPenScript"),
+                  style: _styleModel.getTextStyle()['AlertTextStyle1'],
                 ),
               ],
             ),
@@ -414,40 +439,43 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
               children: <Widget>[
                 new Text(
                   "일기를 삭제 하시겠습니까?",
-                  style: TextStyle(fontSize: 24, fontFamily: "NanumPenScript"),
+                  style: _styleModel.getTextStyle()['AlertTextStyle3'],
                 ),
               ],
             ),
             actions: <Widget>[
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  new FlatButton(
-                    child: new Text(
-                      "취소",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "NanumPenScript",
-                          color: Colors.black),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new InkWell(
+                      child: new Text(
+                        "취소",
+                        style: _styleModel.getTextStyle()['AlertTextStyle2'],
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
-                  new FlatButton(
-                    child: new Text(
-                      "확인",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: "NanumPenScript",
-                          color: Colors.black),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new InkWell(
+                      child: new Text(
+                        "확인",
+                        style: _styleModel.getTextStyle()['AlertTextStyle2'],
+                      ),
+                      onTap: () {
+                        setState(() {
+                          api.removeText(removeData);
+                          _futureBuilder;
+                        });
+                        Navigator.pushReplacementNamed(context, '/home');
+
+                        // Navigator.of(context).pop();
+                      },
                     ),
-                    onPressed: () {
-                      setState(() {
-                        print(selectedDay.runtimeType);
-                        //   api.removeText(removeData);
-                      });
-                      Navigator.of(context).pushReplacementNamed('/menu');
-                    },
                   ),
                 ],
               ),
