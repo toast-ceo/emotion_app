@@ -1,8 +1,8 @@
 import 'package:emotion_new_diary/api/api.dart';
+import 'package:emotion_new_diary/model/snackBar.dart';
 import 'package:emotion_new_diary/model/style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/widgets.dart';
 
@@ -401,12 +401,5 @@ class _MembershipState extends State<Membership> {
             ],
           );
         });
-  }
-}
-
-class SnackbarManager {
-  static void showSnackBar(
-      GlobalKey<ScaffoldState> scaffoldKey, String message) {
-    scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 }

@@ -54,7 +54,7 @@ class _InformationScreenState extends State<InformationScreen> {
             //총 일기 카운트
             count = _api.infoAllNum;
           }
-          return snapshot.connectionState == ConnectionState.done
+          return snapshot.connectionState == ConnectionState.done && count != 0
               ? Container(
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
@@ -194,7 +194,34 @@ class _InformationScreenState extends State<InformationScreen> {
                     ),
                   ),
                 )
-              : Center(child: CircularProgressIndicator());
+              : Container(
+            height: styleModel.getContextSize()['fullScreenHeight'],
+            child: Center(
+              child: Container(
+                width: styleModel.getContextSize()['screenWidthLevel3'],
+                height: styleModel.getContextSize()['screenWidthLevel8'],
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      styleModel.getBackgroundColor()['backgroundColor5'],
+                      styleModel.getBackgroundColor()['backgroundColor2'],
+                      styleModel.getBackgroundColor()['backgroundColor3'],
+                      styleModel.getBackgroundColor()['backgroundColor4'],
+                      styleModel.getBackgroundColor()['backgroundColor6'],
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "일기를 작성해보세요!",
+                    style: styleModel.getTextStyle()['titleTextStyle2'],
+                  ),
+                ),
+              ),
+            ),
+          );
         } else {
           return Container(
             height: MediaQuery.of(context).size.height,
@@ -226,7 +253,7 @@ class _InformationScreenState extends State<InformationScreen> {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
                           child: Text(
-                            "삭님의 일기분석",
+                            "회원 님의 일기분석",
                             style: styleModel.getTextStyle()["infoTextStyle2"],
                           ),
                         ),
@@ -338,7 +365,7 @@ class _InformationScreenState extends State<InformationScreen> {
               ),
             ),
             Container(
-              width: MediaQuery.of(context).size.width * 0.18,
+              width: MediaQuery.of(context).size.width * 0.12,
               child: Center(
                   child: Text(
                 "$count",

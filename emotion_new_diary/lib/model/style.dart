@@ -54,6 +54,11 @@ class StyleModel extends ChangeNotifier {
         color: Colors.white,
         fontWeight: FontWeight.w200,
       ),
+      'titleTextStyle2': TextStyle(
+          fontSize: size.height * 0.03,
+          color: Colors.white,
+          fontWeight: FontWeight.w200,
+          fontFamily: "NanumGothic"),
       'bodyTextStyle1': TextStyle(
         fontSize: size.height * 0.032,
         color: Colors.grey.shade600,

@@ -13,7 +13,6 @@ class ReadScreen extends StatefulWidget {
 }
 
 class _ReadScreenState extends State<ReadScreen> {
-  Map<DateTime, List> _events = {};
   StyleModel _styleModel;
 
   @override
@@ -35,146 +34,156 @@ class _ReadScreenState extends State<ReadScreen> {
               }
             }
             print(userListData);
-            return ListView.builder(
-                itemCount: userListData.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return  Container(
-                    color: styleModel.getBackgroundColor()["backgroundColor1"],
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //날짜
-                            Row(
-                              children: [
-                                // 위의 바
-                                Flexible(
-                                  flex: 5,
-                                  child: Container(
-                                    width: styleModel.getContextSize()['fullScreenWidth'],
-                                    height: 2,
-                                    color: Colors.grey[200],
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    child: Text(
-                                      DateFormat("yyyy.MM.dd").format(
-                                          DateTime.parse(userListData[index]['date'])),
-                                      style:
-                                      styleModel.getTextStyle()["calenderTextStyle1"],
-                                    ),
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Container(
-                                    width: styleModel.getContextSize()['fullScreenWidth'],
-                                    height: 2,
-                                    color: Colors.grey[200],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //제목
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Stack(
+            return Column(
+              children: [
+                Flexible(
+                    flex: 1,
+                    child: Container()),
+                Flexible(
+                  flex: 8,
+                  child: ListView.builder(
+                      itemCount: userListData.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return  Container(
+                          color: styleModel.getBackgroundColor()["backgroundColor1"],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  //날짜
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(
-                                        utf8.decode(userListData[index]['title']
-                                            .toString()
-                                            .codeUnits),
-                                        style: styleModel.getTextStyle()["calenderTextStyle2"],
-                                        textAlign: TextAlign.center,
+                                      // 위의 바
+                                      Flexible(
+                                        flex: 5,
+                                        child: Container(
+                                          width: styleModel.getContextSize()['fullScreenWidth'],
+                                          height: 2,
+                                          color: Colors.grey[200],
+                                        ),
                                       ),
-                                      // SizedBox(
-                                      //   width: 10,
-                                      // ),
-                                      // Text(
-                                      //   _selectedEvents[index]['image_type'],
-                                      //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
-                                      //   textAlign: TextAlign.center,
-                                      // ),
+                                      Flexible(
+                                        flex: 3,
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                          child: Text(
+                                            DateFormat("yyyy.MM.dd").format(
+                                                DateTime.parse(userListData[index]['date'])),
+                                            style:
+                                            styleModel.getTextStyle()["calenderTextStyle1"],
+                                          ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        flex: 1,
+                                        child: Container(
+                                          width: styleModel.getContextSize()['fullScreenWidth'],
+                                          height: 2,
+                                          color: Colors.grey[200],
+                                        ),
+                                      ),
                                     ],
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          IconButton(
-                                              icon: Icon(Icons.cancel_outlined),
-                                              color: Colors.grey,
-                                              iconSize: _styleModel
-                                                  .getContextSize()['middleIconSize'],
-                                              onPressed: () => cancelCheckDialog(
-                                                  context, index, userListData[index]))
-                                        ],
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                utf8.decode(
-                                    userListData[index]['content'].toString().codeUnits),
-                                style: styleModel.getTextStyle()["calenderTextStyle3"],
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            // tag
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "#",
-                                    style: styleModel.getTextStyle()["calenderTextStyle2"],
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Container(
-                                    width: styleModel.getContextSize()["screenWidthLevel2"],
-                                    height:
-                                    styleModel.getContextSize()["screenHeightLevel11"],
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: 10,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return Container(
-                                          width: styleModel
-                                              .getContextSize()["screenHeightLevel11"],
-                                          height: styleModel
-                                              .getContextSize()["screenHeightLevel11"],
-                                        );
-                                      },
+                                  //제목
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Stack(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              utf8.decode(userListData[index]['title']
+                                                  .toString()
+                                                  .codeUnits),
+                                              style: styleModel.getTextStyle()["calenderTextStyle2"],
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            // SizedBox(
+                                            //   width: 10,
+                                            // ),
+                                            // Text(
+                                            //   _selectedEvents[index]['image_type'],
+                                            //   style: _styleModel.getTextStyle()["calenderTextStyle4"],
+                                            //   textAlign: TextAlign.center,
+                                            // ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                IconButton(
+                                                    icon: Icon(Icons.cancel_outlined),
+                                                    color: Colors.grey,
+                                                    iconSize: _styleModel
+                                                        .getContextSize()['middleIconSize'],
+                                                    onPressed: () => cancelCheckDialog(
+                                                        context, index, userListData[index]))
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      utf8.decode(
+                                          userListData[index]['content'].toString().codeUnits),
+                                      style: styleModel.getTextStyle()["calenderTextStyle3"],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  // tag
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "#",
+                                          style: styleModel.getTextStyle()["calenderTextStyle2"],
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Container(
+                                          width: styleModel.getContextSize()["screenWidthLevel2"],
+                                          height:
+                                          styleModel.getContextSize()["screenHeightLevel11"],
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: 10,
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return Container(
+                                                width: styleModel
+                                                    .getContextSize()["screenHeightLevel11"],
+                                                height: styleModel
+                                                    .getContextSize()["screenHeightLevel11"],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                  ),
+                                  //FlatButton(child: Container(color: Colors.yellow,width: 100,height: 100,), onPressed: () => cancelCheckDialog(context, index, _selectedEvents[index]))
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 40,
-                            ),
-                            //FlatButton(child: Container(color: Colors.yellow,width: 100,height: 100,), onPressed: () => cancelCheckDialog(context, index, _selectedEvents[index]))
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                });
+                          ),
+                        );
+                      }),
+                ),
+              ],
+            );
           } else {
             return  Container(
               height: styleModel.getContextSize()['fullScreenHeight'],
@@ -197,8 +206,8 @@ class _ReadScreenState extends State<ReadScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      "No information :(",
-                      style: styleModel.getTextStyle()['titleTextStyle'],
+                      "일기를 작성해보세요!",
+                      style: styleModel.getTextStyle()['titleTextStyle2'],
                     ),
                   ),
                 ),

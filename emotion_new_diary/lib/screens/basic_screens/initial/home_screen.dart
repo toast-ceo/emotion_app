@@ -36,15 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ReadScreen(),
     SettingScreen(),
   ];
-  // styleModel.getBackgroundColor()['backgroundColor5'],
-  // styleModel.getBackgroundColor()['backgroundColor2'],
-  // styleModel.getBackgroundColor()['backgroundColor3'],
-  // styleModel.getBackgroundColor()['backgroundColor4'],
-  // styleModel.getBackgroundColor()['backgroundColor6'],
+
   @override
   Widget build(BuildContext context) {
     final styleModel = new StyleModel(context);
     return Scaffold(
+
           body: _bodyScreens[_selectedIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(

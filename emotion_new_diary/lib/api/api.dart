@@ -14,6 +14,7 @@ class Api with ChangeNotifier {
   String loginUri = ApiInfo.loginUri;
   String membershipUri = ApiInfo.membershipUri;
   int membershipTemp;
+  int addTextTemp;
   Map<String, dynamic> userAllData = {};
   int infoAllNum = 0;
   String key = '';
@@ -88,8 +89,12 @@ class Api with ChangeNotifier {
       'Accept': 'application/json',
       'Authorization': keyType + " " + key,
     });
-    var temp = jsonDecode(response.body);
-    return temp['body'];
+    if (response.statusCode == 500) {
+      return null;
+    } else {
+      var temp = jsonDecode(response.body);
+      return temp['body'];
+    }
   }
 
   Future fetchPostInfo(String year) async {
@@ -101,14 +106,15 @@ class Api with ChangeNotifier {
         'Accept': 'application/json',
         'Authorization': keyType + " " + key,
       });
-      print(keyType + " " + key);
+      // print(keyType + " " + key);
+      print(response.statusCode);
       if (response.statusCode == 200) {
         var temp = jsonDecode(response.body);
         //print(temp);
         infoAllNum = temp['meta']['diary_count'];
         // print(temp['meta']['diary_count']);
         // print(infoAllNum);
-        print(temp);
+        // print(temp);
         return temp['body']['$year'];
       } else if (response.statusCode == 404) {
         return null;
@@ -134,10 +140,12 @@ class Api with ChangeNotifier {
     request.headers.set(HttpHeaders.authorizationHeader, keyType + " " + key);
     request.add(utf8.encode(json.encode(data)));
     HttpClientResponse response = await request.close();
-
+    print(addTextTemp);
     if (response.statusCode == 201) {
+      addTextTemp = response.statusCode;
       print("성공");
     } else {
+      addTextTemp = response.statusCode;
       print("실패");
     }
   }

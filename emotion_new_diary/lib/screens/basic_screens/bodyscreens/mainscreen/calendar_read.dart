@@ -141,8 +141,8 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                   ),
                   child: Center(
                     child: Text(
-                      "No information :(",
-                      style: styleModel.getTextStyle()['titleTextStyle'],
+                      "일기를 작성해보세요!",
+                      style: styleModel.getTextStyle()['titleTextStyle2'],
                     ),
                   ),
                 ),
@@ -473,7 +473,6 @@ class _CalendarRead extends State<CalendarRead> with TickerProviderStateMixin {
                         });
                         Navigator.pushReplacementNamed(context, '/home');
 
-                        // Navigator.of(context).pop();
                       },
                     ),
                   ),
