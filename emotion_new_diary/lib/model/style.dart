@@ -164,6 +164,21 @@ class StyleModel extends ChangeNotifier {
           color: Colors.black54,
           fontWeight: FontWeight.w500,
           fontFamily: "NanumGothic"),
+      'SettingTextStyle1': TextStyle(
+          fontSize: size.height * 0.022,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'SettingTextStyle2': TextStyle(
+          fontSize: size.height * 0.02,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
+      'SettingTextStyle3': TextStyle(
+          fontSize: size.height * 0.04,
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+          fontFamily: "NanumGothic"),
     };
 
     return textStyle;
@@ -204,6 +219,7 @@ class StyleModel extends ChangeNotifier {
       'screenWidthLevel6': size.width * 0.4,
       'screenWidthLevel7': size.width * 0.3,
       'screenWidthLevel8': size.width * 0.2,
+      'screenWidthLevel8.5': size.width * 0.15,
       'screenWidthLevel9': size.width * 0.1,
       'bigestIconSize': size.height * 0.05,
       'bigIconSize': size.height * 0.03,
